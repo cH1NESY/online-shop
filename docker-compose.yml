@@ -16,7 +16,7 @@ services:
       - .:/var/www/html
 
   postgres:
-    image: postgres:13
+    image: postgres:13.1
     ports:
       - 54322:5432
     environment:
