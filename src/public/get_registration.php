@@ -52,7 +52,7 @@
             </div>
             <div class="signup-form">
                 <div class="title">Signup</div>
-                <form action="handle_registration.php">
+                <form action="handle_registration.php" method="post">
                     <div class="input-boxes">
                         <div class="input-box">
                             <i class="fas fa-user"></i>
@@ -65,6 +65,10 @@
                         <div class="input-box">
                             <i class="fas fa-lock"></i>
                             <input type="password" name="password" placeholder="Enter your password" required>
+                        </div>
+                        <div class="input-box">
+                            <i class="fas fa-lock"></i>
+                            <input type="repassword" name="repassword" placeholder="Repeat your password" required>
                         </div>
                         <div class="button input-box">
                             <input type="submit" value="Sumbit">
