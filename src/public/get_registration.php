@@ -32,15 +32,17 @@
         <div class="form-content">
             <div class="login-form">
                 <div class="title">Login</div>
-                <form action="#">
+                <form action="handle_login.php" method="post">
                     <div class="input-boxes">
+                        <label style="color: #a647ff" ><?php if(!empty($errors) && !empty($errors['login'])){ print_r($errors['login']) ;}?>  </label>
                         <div class="input-box">
                             <i class="fas fa-envelope"></i>
-                            <input type="text" placeholder="Enter your email" required>
+                            <input type="text" name="login" placeholder="Enter your email" required>
                         </div>
+                        <label style="color: #a647ff"><?php if(!empty($errors) && !empty($errors['password'])){ print_r($errors['password']) ;}?></label>
                         <div class="input-box">
                             <i class="fas fa-lock"></i>
-                            <input type="password" placeholder="Enter your password" required>
+                            <input type="password" name="password" placeholder="Enter your password" required>
                         </div>
                         <div class="text"><a href="#">Forgot password?</a></div>
                         <div class="button input-box">
