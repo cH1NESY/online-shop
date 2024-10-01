@@ -95,7 +95,7 @@ function validate()
 
 $errors = validate();
 
-if(empty($errors)){
+if(empty($errors)) {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $pass = $_POST['password'];
@@ -114,10 +114,10 @@ if(empty($errors)){
     $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
     $stmt->execute(['email' => $true_email]);
 
-    print_r($stmt->fetch());
-}else{
-    print_r($errors);
+    //print_r($stmt->fetch());
 }
+
+
 require_once './get_registration.php';
 ?>
 
