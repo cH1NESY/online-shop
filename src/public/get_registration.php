@@ -14,14 +14,14 @@
     <input type="checkbox" id="flip">
     <div class="cover">
         <div class="front">
-            <img src="images/frontImg.jpg" alt="">
+            <!--<img src="home/ch1nesy/china/m.jpg" alt=""> -->
             <div class="text">
                 <span class="text-1">Every new friend is a <br> new adventure</span>
                 <span class="text-2">Let's get connected</span>
             </div>
         </div>
         <div class="back">
-            <!--<img class="backImg" src="images/backImg.jpg" alt="">-->
+            <!--<img class="backImg" src="/home/ch1nesy/china/m.jpg" alt="">-->
             <div class="text">
                 <span class="text-1">Complete miles of journey <br> with one step</span>
                 <span class="text-2">Let's get started</span>
@@ -56,19 +56,23 @@
                     <div class="input-boxes">
                         <div class="input-box">
                             <i class="fas fa-user"></i>
-                            <input type="text" name="name" placeholder="Enter your name" required>
+                            <!--<label style="color: crimson"> <?php if(!empty($errors)){print_r($errors['name']);} ?></label> -->
+                            <input type="text" name="name" placeholder="<?php if(!empty($errors)){print_r($errors['name']);} ?>Enter your name" required>
                         </div>
                         <div class="input-box">
                             <i class="fas fa-envelope"></i>
-                            <input type="text" name="email" placeholder="Enter your email" required>
+                            <!--<label style="color: crimson"> <?php if(!empty($errors)){print_r($errors['email']);} ?></label> -->
+                            <input type="text" name="email" placeholder="<?php if(!empty($errors)){print_r($errors['email']);} ?>Enter your email" required>
                         </div>
                         <div class="input-box">
                             <i class="fas fa-lock"></i>
-                            <input type="password" name="password" placeholder="Enter your password" required>
+                            <!--<label style="color: crimson"> <?php if(!empty($errors)){print_r($errors['password']);} ?></label> -->
+                            <input type="password" name="password" placeholder="<?php if(!empty($errors)){print_r($errors['password']);} ?>Enter your password" required>
                         </div>
                         <div class="input-box">
                             <i class="fas fa-lock"></i>
-                            <input type="repassword" name="repassword" placeholder="Repeat your password" required>
+                            <!--<label style="color: crimson"> <?php if(!empty($errors)){print_r($errors['repass']);} ?></label> -->
+                            <input type="repassword" name="repassword" placeholder="<?php if(!empty($errors)){print_r($errors['repass']);} ?>Repeat your password" required>
                         </div>
                         <div class="button input-box">
                             <input type="submit" value="Sumbit">
@@ -100,7 +104,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: #7d2ae8;
+        background: #a647ff;
         padding: 30px;
     }
 
@@ -172,7 +176,7 @@
         position: absolute;
         height: 100%;
         width: 100%;
-        opacity: 0.5;
+        opacity: 1;
         background: #7d2ae8;
     }
 

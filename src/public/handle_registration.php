@@ -1,60 +1,106 @@
 <?php
 $flag = false;
 
-$name = $_POST['name'];
-$email = $_POST['email'];
-$true_email = filter_var($email, FILTER_VALIDATE_EMAIL);
-$pass = $_POST['password'];
-$repass = $_POST['repassword'];
+function validate()
+{
+    $errors = [];
 
-    if (empty($name)) {
-        $flag = true;
-        echo "Имя не может быть пустым";
-    }
-    if($name < 1){
-        $flag = true;
-        echo "Имя должно быть длиннее";
-    }
-    for($i = 0; $i < strlen($name); $i++){
-        if (is_numeric($name[$i])) {
-            $flag = true;
-            echo "Проверьте правильность имени";
+    if(isset($_POST['name']) ){
+
+        $name = $_POST['name'];
+
+
+        if (empty($name)) {
+            $errors['name'] = "Имя не может быть пустым";
+
         }
-        if ($name[$i] == " ") {
+        if($name < 1){
             $flag = true;
-            echo "Проверьте правильность имени";
+            $errors['name'] = "Имя должно быть длиннее";
+
+        }
+        for($i = 0; $i < strlen($name); $i++){
+            if (is_numeric($name[$i])) {
+                $flag = true;
+                $errors['name'] = "В имени не должно быть цифр";
+
+            }
+            if ($name[$i] == " ") {
+                $flag = true;
+                $errors['name'] = "В имени не должно быть пробелов";
+            }
+        }
+        if(!preg_match("#^[\w\-]+$#u",$name)){
+            $flag = true;
+            $errors['name'] = "В имени не должно быть специальных символов";
         }
     }
-    if(!preg_match("#^[\w\-]+$#u",$name)){
-        $flag = true;
-        echo "Проверьте правильность имени";
-    }
-
-    if(!$true_email){
-        $flag = true;
-        echo "Неправильный email" ;
-    }
-
-    if (empty($pass)) {
-        $flag = true;
-        echo "Пароль не может быть пустым";
-    }
-
-
-    if ($pass != $repass) {
-        $flag = true;
-        echo "Проверьте пароль";
-    }
-    if (empty( $repass)) {
-        $flag = true;
-        echo "Проверьте пароль";
+    else{
+        $errors['name'] = "Поле name должно быть заполнено";
     }
 
 
 
 
-if($flag == false){
+    if(isset($_POST['email'])){
+        $email = $_POST['email'];
+        $true_email = filter_var($email, FILTER_VALIDATE_EMAIL);
+        if(!$true_email){
+            $flag = true;
+            $errors['email'] = "Неправильный email";
 
+        }
+    }
+    else{
+        $errors['email'] = "Поле email должно быть заполнено";
+    }
+
+
+
+
+
+    if(isset($_POST['password'])){
+        $pass = $_POST['password'];
+        if (empty($pass)) {
+            $flag = true;
+            $errors['password'] = "Пароль не может быть пустым";
+
+        }
+    }
+    else{
+        $errors['password'] = "Поле password должно быть заполнено";
+    }
+
+
+
+    if (isset($_POST['repassword'])){
+        $repass = $_POST['repassword'];
+        $pass = $_POST['password'];
+        if ($pass != $repass) {
+            $flag = true;
+            $errors['repass'] = "Проверьте пароль";
+
+        }
+        if (empty( $repass)) {
+            $flag = true;
+            $errors['repass'] = "Проверьте пароль";
+        }
+    }
+    else{
+        $errors['repass'] = "Повторите пароль";
+    }
+    return $errors;
+}
+
+
+$errors = validate();
+
+if(empty($errors)){
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $pass = $_POST['password'];
+    $repass = $_POST['repassword'];
+    $true_email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
 
     $pdo = new PDO('pgsql:host=postgres;port=5432;dbname=mydb', 'user', 'pass');
     $stmt = $pdo->prepare("INSERT INTO users (name, email, password) VALUES (:name, :email, :password)");
@@ -69,4 +115,12 @@ if($flag == false){
     $stmt->execute(['email' => $true_email]);
 
     print_r($stmt->fetch());
+}else{
+    print_r($errors);
 }
+require_once './get_registration.php';
+?>
+
+
+
+
