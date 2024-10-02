@@ -48,6 +48,7 @@ if(empty($log_errors)) {
 
         if(password_verify($pass, $pass_db)) {
             setcookie('user_id', $data['id']);
+            header('Location: /catalog.php');
             echo " ";
         }
         else{
