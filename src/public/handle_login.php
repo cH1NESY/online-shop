@@ -47,7 +47,9 @@ if(empty($log_errors)) {
         $pass_db = $data['password'] ;
 
         if(password_verify($pass, $pass_db)) {
-            setcookie('user_id', $data['id']);
+            //setcookie('user_id', $data['id']);
+            session_start();
+            $_SESSION['user_id'] = $data['id'];
             header('Location: /catalog.php');
             echo " ";
         }
