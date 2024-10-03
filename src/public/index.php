@@ -40,10 +40,19 @@
             }
             break;
         case '/catalog':
-                require_once './catalog.php';
+            require_once './catalog.php';
             break;
+        case '/add_product':
+            if($requestMethod === 'GET') {
+                require_once './get_add_product.php';
+            }elseif ($requestMethod === 'POST') {
+                require_once './handle_add_product.php';
+            }else {
+                echo "Такой метод не поддерживается";
+            }
         default:
             http_response_code(404);
             require_once './404.php';
+            break;
     }
 ?>
