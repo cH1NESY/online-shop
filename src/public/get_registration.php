@@ -32,7 +32,7 @@
         <div class="form-content">
             <div class="login-form">
                 <div class="title">Login</div>
-                <form action="handle_login.php" method="post">
+                <form action="/login" method="post">
                     <div class="input-boxes">
                         <label style="color: #a647ff" ><?php if(!empty($errors) && !empty($errors['login'])  ){ print_r($errors['login']) ;}?>  </label>
                         <div class="input-box">
@@ -54,7 +54,7 @@
             </div>
             <div class="signup-form">
                 <div class="title">Signup</div>
-                <form action="handle_registration.php" method="post">
+                <form action="/registration" method="post">
                     <div class="input-boxes">
                         <label style="color: #a647ff" ><?php if(!empty($errors) && !empty($errors['name'])){ print_r($errors['name']) ;}?>  </label>
                         <div class="input-box">

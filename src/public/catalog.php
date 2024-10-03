@@ -2,7 +2,7 @@
 session_start();
 //print_r($_SESSION['user_id']);
 if(!isset($_SESSION['user_id'])){
-    header('Location: /get_registration.php');
+    header('Location: /login');
 }
 //if(!isset($_COOKIE['user_id'])){
    // header('Location: /get_registration.php');
@@ -12,6 +12,8 @@ $pdo = new PDO('pgsql:host=postgres;port=5432;dbname=mydb', 'user', 'pass');
 $stmt = $pdo->prepare("SELECT *  FROM products");
 $stmt->execute();
 $products = $stmt->fetchAll();
+
+$images = ['https://discountmsk.ru/upload/iblock/3b4/pncpl_bupw.jpg', 'https://roba.pro/upload/iblock/b3a/8cdwjr551my173fgoa6vyo65hgjfpre5/1527.jpg'];
 
 ?>
 
@@ -40,6 +42,7 @@ $products = $stmt->fetchAll();
         <ul class="card-list swiper-wrapper">
             <li class="card-item swiper-slide">
                 <a href="#" class="card-link">
+
                     <img src="./m.jpg" alt="Card Image" class="card-image">
                     <p class="badge badge-designer"><?php echo $product['title'];?></p>
                     <h2 class="card-title"><?php echo $product['description'] ?></h2>
