@@ -43,7 +43,7 @@ $images = ['https://discountmsk.ru/upload/iblock/3b4/pncpl_bupw.jpg', 'https://r
             <li class="card-item swiper-slide">
                 <a href="#" class="card-link">
 
-                    <img src="./m.jpg" alt="Card Image" class="card-image">
+                    <img src="<?php echo $product['image']?>" alt="Card Image" class="card-image">
                     <p class="badge badge-designer"><?php echo $product['title'];?></p>
                     <h2 class="card-title"><?php echo $product['description'] ?></h2>
                     <label ><?php echo $product['price'] . 'руб';?></label>
@@ -55,8 +55,7 @@ $images = ['https://discountmsk.ru/upload/iblock/3b4/pncpl_bupw.jpg', 'https://r
         <div class="swiper-pagination"></div>
 
         <!-- Navigation Buttons -->
-        <div class="swiper-slide-button swiper-button-prev"></div>
-        <div class="swiper-slide-button swiper-button-next"></div>
+
     </div>
 </div>
 
@@ -212,34 +211,5 @@ $images = ['https://discountmsk.ru/upload/iblock/3b4/pncpl_bupw.jpg', 'https://r
     }
 </style>
 <script>
-    new Swiper('.card-wrapper', {
-        loop: true,
-        spaceBetween: 30,
 
-        // Pagination bullets
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-            dynamicBullets: true
-        },
-
-        // Navigation arrows
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-
-        // Responsive breakpoints
-        breakpoints: {
-            0: {
-                slidesPerView: 1
-            },
-            768: {
-                slidesPerView: 2
-            },
-            1024: {
-                slidesPerView: 3
-            }
-        }
-    });
 </script>
