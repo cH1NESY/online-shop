@@ -40,7 +40,12 @@
             }
             break;
         case '/catalog':
-            require_once './catalog.php';
+            if ($requestMethod === 'GET') {
+                require_once './catalog.php';
+            }
+            else {
+                echo "Такой метод не поддерживается";
+            }
             break;
         case '/add_product':
             if($requestMethod === 'GET') {
@@ -50,6 +55,15 @@
             }else {
                 echo "Такой метод не поддерживается";
             }
+            break;
+        case '/basket':
+            if($requestMethod === 'GET') {
+                require_once './basket.php';
+            }
+            else {
+                echo "Такой метод не поддерживается";
+            }
+            break;
         default:
             http_response_code(404);
             require_once './404.php';

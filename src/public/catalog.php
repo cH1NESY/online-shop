@@ -35,6 +35,11 @@ $images = ['https://discountmsk.ru/upload/iblock/3b4/pncpl_bupw.jpg', 'https://r
 <body>
 
 <div class="container swiper">
+    <!-- <form action="/login" method="get">
+    <div class="button input-box" >
+        <input type="submit" value="logout">
+    </div>
+    </form> -->
     <h1>Catalog</h1>
     <div class="card-wrapper">
         <!-- Card slides container -->
@@ -92,7 +97,7 @@ $images = ['https://discountmsk.ru/upload/iblock/3b4/pncpl_bupw.jpg', 'https://r
 
     .card-wrapper {
         max-width: 1100px;
-        margin: 0 60px 35px;
+        margin:  60px 35px;
         padding: 20px 10px;
         overflow: hidden;
     }
@@ -202,12 +207,46 @@ $images = ['https://discountmsk.ru/upload/iblock/3b4/pncpl_bupw.jpg', 'https://r
     /* Responsive media query code for small screens */
     @media (max-width: 768px) {
         .card-wrapper {
-            margin: 0 10px 25px;
+            margin: 0 100px 25px;
         }
 
         .card-wrapper .swiper-slide-button {
             display: none;
         }
+    }
+    .button {
+        color: #fff;
+        margin-top: 40px;
+    }
+    .button input {
+        color: #fff;
+        background: #7d2ae8;
+        border-radius: 6px;
+        padding: 0;
+        cursor: pointer;
+        transition: all 0.4s ease;
+    }
+    .button input:hover {
+        background: #5b13b9;
+    }
+    .input-box {
+        display: flex;
+        align-items: center;
+        height: 50px;
+        width: 100%;
+        margin: 10px 1px;
+        position: relative;
+    }
+    .input-box input {
+        height: 100%;
+        width: 15%;
+        outline: none;
+        border: none;
+        padding: 0 30px;
+        font-size: 16px;
+        font-weight: 500;
+        border-bottom: 2px solid rgba(0, 0, 0, 0);
+        transition: all 0.3s ease;
     }
 </style>
 <script>
