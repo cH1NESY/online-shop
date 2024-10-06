@@ -12,28 +12,18 @@ if(!isset($_SESSION['user_id'])){
 $pdo = new PDO('pgsql:host=postgres;port=5432;dbname=mydb', 'user', 'pass');
 
 $stmt = $pdo->prepare("SELECT product_id FROM user_products WHERE user_id = :user_id");
-$stmt->execute([$user_id]);
-$product_id = $stmt->fetchAll();
+$stmt->execute(['user_id' => $user_id]);
+$products = $stmt->fetchAll();
 
+$res = [];
 
+foreach ($products as $product) {
+    $productId = $product['product_id'];
+    $stmt = $pdo->prepare("SELECT * FROM products WHERE id = :productId");
+    $stmt->execute(['productId' => $productId]);
+    $res[] = $stmt->fetch();
 
-$products = [];
-$count = 0;
-
-foreach ($product_id as $item => $p_id) {
-
-
-
-            $stmt = $pdo->prepare("SELECT * FROM products WHERE id =:p_id[count][product_id]");
-            $stmt->execute([$p_id[$count]['product_id']]);
-
-            $count++;
-
-    }
-
-    $products = $stmt->fetchAll();
-
-print_r($products);
+}
 
 
 ?>
@@ -61,19 +51,20 @@ print_r($products);
         <input type="submit" value="logout">
     </div>
     </form> -->
-    <h1>Catalog</h1>
+    <h1>Корзина</h1>
     <div class="card-wrapper">
         <!-- Card slides container -->
-        <?php foreach ($products as $product):?>
+        <?php foreach ($res as $r):?>
 
             <ul class="card-list swiper-wrapper">
                 <li class="card-item swiper-slide">
                     <a href="#" class="card-link">
 
-                        <img src="<?php if($product['id']) echo $product['image']?>" alt="Card Image" class="card-image">
-                        <p class="badge badge-designer"><?php echo $product['title']?></p>
-                        <h2 class="card-title"><?php echo $product['description'] ?></h2>
-                        <label ><?php echo $product['price'] . 'руб'?></label>
+                        <img src="<?php echo $r['image']?>" alt="Card Image" class="card-image">
+                        <p class="badge badge-designer"><?php echo $r['title']?></p>
+                        <h2 class="card-title"><?php echo $r['description'] ?></h2>
+                        <label ><?php echo $r['price'] . 'руб'?></label>
+
                     </a>
                 </li>
             </ul>
