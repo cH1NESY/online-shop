@@ -1,19 +1,18 @@
 <?php
 session_start();
-//print_r($_SESSION['user_id']);
+
 if(!isset($_SESSION['user_id'])){
     header('Location: /login');
 }
-//if(!isset($_COOKIE['user_id'])){
-   // header('Location: /get_registration.php');
-//}
+
 $pdo = new PDO('pgsql:host=postgres;port=5432;dbname=mydb', 'user', 'pass');
 
 $stmt = $pdo->prepare("SELECT *  FROM products");
 $stmt->execute();
 $products = $stmt->fetchAll();
 
-$images = ['https://discountmsk.ru/upload/iblock/3b4/pncpl_bupw.jpg', 'https://roba.pro/upload/iblock/b3a/8cdwjr551my173fgoa6vyo65hgjfpre5/1527.jpg'];
+
+
 
 ?>
 
@@ -35,11 +34,11 @@ $images = ['https://discountmsk.ru/upload/iblock/3b4/pncpl_bupw.jpg', 'https://r
 <body>
 
 <div class="container swiper">
-    <!-- <form action="/login" method="get">
+     <!--<form action="/add_product" method="get">
     <div class="button input-box" >
         <input type="submit" value="logout">
     </div>
-    </form> -->
+    </form>-->
     <h1>Catalog</h1>
     <div class="card-wrapper">
         <!-- Card slides container -->

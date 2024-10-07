@@ -1,5 +1,4 @@
 <?php
-$flag = false;
 
 function validate()
 {
@@ -47,11 +46,10 @@ if(empty($log_errors)) {
         $pass_db = $data['password'] ;
 
         if(password_verify($pass, $pass_db)) {
-            //setcookie('user_id', $data['id']);
+
             session_start();
             $_SESSION['user_id'] = $data['id'];
             header('Location: /catalog');
-            echo " ";
         }
         else{
             $errors['login'] = "Пароль или Логин неверный";
@@ -61,9 +59,7 @@ if(empty($log_errors)) {
 
 
 
-    //$stmt->execute(['email' => $true_email]);
 
-    //print_r($stmt->fetch());
 }
 
 
