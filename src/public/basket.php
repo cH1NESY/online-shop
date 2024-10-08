@@ -8,22 +8,16 @@ if(!isset($_SESSION['user_id'])){
 
 $pdo = new PDO('pgsql:host=postgres;port=5432;dbname=mydb', 'user', 'pass');
 
-$stmt = $pdo->prepare("SELECT product_id FROM user_products WHERE user_id = :user_id");
-$stmt->execute(['user_id' => $user_id]);
-$products = $stmt->fetchAll();
+
 
 $res = [];
 
+$stmt = $pdo->prepare("SELECT * FROM user_products JOIN products ON user_products.product_id = products.id WHERE user_id = :user_id");
+$stmt->execute(['user_id' => $user_id]);
+$res = $stmt->fetchAll();
+$allPrice = 1;
 
 
-foreach ($products as $product) {
-    $productId = $product['product_id'];
-    $stmt = $pdo->prepare("SELECT * FROM products WHERE id = :productId");
-    $stmt->execute(['productId' => $productId]);
-    $res[] = $stmt->fetch();
-
-
-}
 
 
 
@@ -61,12 +55,13 @@ foreach ($products as $product) {
             <ul class="card-list swiper-wrapper">
                 <li class="card-item swiper-slide">
                     <a href="#" class="card-link">
-
+                        <?php $allPrice = 1;?>
                         <img src="<?php echo $r['image']?>" alt="Card Image" class="card-image">
                         <p class="badge badge-designer"><?php echo $r['title']?></p>
                         <h2 class="card-title"><?php echo $r['description'] ?></h2>
-                        <label ><?php echo $r['price'] . 'руб'?></label>
-
+                        <label ><?php echo "Цена за штуку: " . $r['price'] . 'руб' ?></label><br/>
+                        <label ><?php echo "Количество: " . $r['amount'] ?></label><br/>
+                        <?php $allPrice = $r['price']*$r['amount']; echo "Цена: " . $allPrice . " руб"?>
 
                     </a>
                 </li>
