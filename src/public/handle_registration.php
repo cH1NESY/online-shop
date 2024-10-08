@@ -111,10 +111,7 @@ if(empty($errors)) {
     $stmt->execute(['name' => $name, 'email' => $true_email, 'password' => $hash]);
 
     header('Location: /login');
-    //$stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
-    //$stmt->execute(['email' => $true_email]);
 
-    //print_r($stmt->fetch());
 }
 
 

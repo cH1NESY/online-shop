@@ -1,13 +1,10 @@
 <?php
 session_start();
 $user_id = $_SESSION['user_id'];
-//print_r($_SESSION['user_id']);
+
 if(!isset($_SESSION['user_id'])){
     header('Location: /login');
 }
-//if(!isset($_COOKIE['user_id'])){
-// header('Location: /get_registration.php');
-//}
 
 $pdo = new PDO('pgsql:host=postgres;port=5432;dbname=mydb', 'user', 'pass');
 
@@ -17,13 +14,18 @@ $products = $stmt->fetchAll();
 
 $res = [];
 
+
+
 foreach ($products as $product) {
     $productId = $product['product_id'];
     $stmt = $pdo->prepare("SELECT * FROM products WHERE id = :productId");
     $stmt->execute(['productId' => $productId]);
     $res[] = $stmt->fetch();
 
+
 }
+
+
 
 
 ?>
@@ -64,6 +66,7 @@ foreach ($products as $product) {
                         <p class="badge badge-designer"><?php echo $r['title']?></p>
                         <h2 class="card-title"><?php echo $r['description'] ?></h2>
                         <label ><?php echo $r['price'] . 'руб'?></label>
+
 
                     </a>
                 </li>
