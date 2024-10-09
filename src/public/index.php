@@ -1,25 +1,7 @@
 <?php
     $requestUri = $_SERVER['REQUEST_URI'];
     $requestMethod = $_SERVER['REQUEST_METHOD'];
-   /*f($requestUri === '/login') {
-        if($requestMethod === 'GET') {
-            require_once './get_registration.php';
-        }elseif ($requestMethod === 'POST') {
-            require_once './handle_login.php';
-        }
-    } elseif ($requestUri === '/registration') {
-       if($requestMethod === 'GET') {
-           require_once './get_registration.php';
-       }elseif ($requestMethod === 'POST') {
-           require_once './handle_registration.php';
-       }
-    }elseif ($requestUri === '/catalog'){
-        require_once './catalog.php';
-    }
-    else{
-        http_response_code(404);
-        require_once './404.php';
-    }*/
+
     switch ($requestUri){
         case '/login':
             if($requestMethod === 'GET') {

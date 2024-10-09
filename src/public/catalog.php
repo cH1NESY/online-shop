@@ -1,17 +1,7 @@
 <?php
-session_start();
-
-if(!isset($_SESSION['user_id'])){
-    header('Location: /login');
-}
-
-$pdo = new PDO('pgsql:host=postgres;port=5432;dbname=mydb', 'user', 'pass');
-
-$stmt = $pdo->prepare("SELECT *  FROM products");
-$stmt->execute();
-$products = $stmt->fetchAll();
-
-
+require_once "./classes/Catalog.php";
+$products = new Catalog();
+$result = $products->showProducts();
 
 
 ?>
@@ -42,7 +32,7 @@ $products = $stmt->fetchAll();
     <h1>Catalog</h1>
     <div class="card-wrapper">
         <!-- Card slides container -->
-        <?php foreach ($products as $product):?>
+        <?php foreach ($result as $product):?>
         <ul class="card-list swiper-wrapper">
             <li class="card-item swiper-slide">
                 <a href="#" class="card-link">

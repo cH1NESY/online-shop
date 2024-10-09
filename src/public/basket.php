@@ -1,25 +1,8 @@
 <?php
-session_start();
-$user_id = $_SESSION['user_id'];
+require_once "./classes/Basket.php";
 
-if(!isset($_SESSION['user_id'])){
-    header('Location: /login');
-}
-
-$pdo = new PDO('pgsql:host=postgres;port=5432;dbname=mydb', 'user', 'pass');
-
-
-
-$res = [];
-
-$stmt = $pdo->prepare("SELECT * FROM user_products JOIN products ON user_products.product_id = products.id WHERE user_id = :user_id");
-$stmt->execute(['user_id' => $user_id]);
-$res = $stmt->fetchAll();
-$allPrice = 1;
-
-
-
-
+$product = new Basket();
+$result = $product->showProductsInBasket();
 
 
 ?>
@@ -50,7 +33,7 @@ $allPrice = 1;
     <h1>Корзина</h1>
     <div class="card-wrapper">
         <!-- Card slides container -->
-        <?php foreach ($res as $r):?>
+        <?php foreach ($result as $r):?>
 
             <ul class="card-list swiper-wrapper">
                 <li class="card-item swiper-slide">

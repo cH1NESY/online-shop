@@ -34,7 +34,7 @@
                 <div class="title">Login</div>
                 <form action="/login" method="post">
                     <div class="input-boxes">
-                        <label style="color: #a647ff" ><?php if(!empty($errors) && !empty($errors['login'])  ){ print_r($errors['login']) ;}?>  </label>
+                        <label style="color: #a647ff" ><?php if(!empty($result) && !empty($result['login'])  ){ print_r($result['login']) ;}?>  </label>
                         <div class="input-box">
                             <i class="fas fa-envelope"></i>
                             <input type="text" name="login" placeholder="Enter your email" required>
@@ -56,22 +56,22 @@
                 <div class="title">Signup</div>
                 <form action="/registration" method="post">
                     <div class="input-boxes">
-                        <label style="color: #a647ff" ><?php if(!empty($errors) && !empty($errors['name'])){ print_r($errors['name']) ;}?>  </label>
+                        <label style="color: #a647ff" ><?php if(!empty($result) && !empty($result['name'])){ print_r($result['name']) ;}?>  </label>
                         <div class="input-box">
                             <i class="fas fa-user"></i>
                             <input type="text" name="name" placeholder="Enter your name" required>
                         </div>
-                        <label style="color: #a647ff"> <?php if(!empty($errors) && !empty($errors['email'])){print_r($errors['email']);} ?></label>
+                        <label style="color: #a647ff"> <?php if(!empty($result) && !empty($result['email'])){print_r($result['email']);} ?></label>
                         <div class="input-box">
                             <i class="fas fa-envelope"></i>
                             <input type="text" name="email" placeholder="Enter your email" required>
                         </div>
-                        <label style="color: #a647ff"> <?php if(!empty($errors) && !empty($errors['password'])){print_r($errors['password']);} ?></label>
+                        <label style="color: #a647ff"> <?php if(!empty($result) && !empty($result['password'])){print_r($result['password']);} ?></label>
                         <div class="input-box">
                             <i class="fas fa-lock"></i>
                             <input type="password" name="password" placeholder="Enter your password" required>
                         </div>
-                        <label style="color: #a647ff"> <?php if(!empty($errors) && !empty($errors['repass'])){print_r($errors['repass']);} ?></label>
+                        <label style="color: #a647ff"> <?php if(!empty($result) && !empty($result['repass'])){print_r($result['repass']);} ?></label>
                         <div class="input-box">
                             <i class="fas fa-lock"></i>
                             <input type="repassword" name="repassword" placeholder="Repeat your password" required>
