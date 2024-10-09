@@ -1,29 +1,42 @@
 <?php
     $requestUri = $_SERVER['REQUEST_URI'];
     $requestMethod = $_SERVER['REQUEST_METHOD'];
+    require_once './../Controller/UserController.php';
+    require_once './../Controller/BasketController.php';
+    require_once './../Controller/ProductController.php';
+
 
     switch ($requestUri){
         case '/login':
             if($requestMethod === 'GET') {
-                require_once './get_registration.php';
+
+                $userController = new UserController();
+                $userController->getRegistrateForm();
             }elseif ($requestMethod === 'POST') {
-                require_once './handle_login.php';
+
+                $userController = new UserController();
+                $userController->login();
             }else {
                 echo "Такой метод не поддерживается";
             }
             break;
         case '/registration':
             if($requestMethod === 'GET') {
-                require_once './get_registration.php';
+
+                $userController = new UserController();
+                $userController->getRegistrateForm();
             }elseif ($requestMethod === 'POST') {
-                require_once './handle_registration.php';
+
+                $userController = new UserController();
+                $userController->registrate();
             }else {
                 echo "Такой метод не поддерживается";
             }
             break;
         case '/catalog':
             if ($requestMethod === 'GET') {
-                require_once './catalog.php';
+               $productController = new ProductController();
+               $productController->showProducts();
             }
             else {
                 echo "Такой метод не поддерживается";
@@ -31,16 +44,19 @@
             break;
         case '/add_product':
             if($requestMethod === 'GET') {
-                require_once './get_add_product.php';
+                $basketController = new BasketController();
+                $basketController->getAddProductForm();
             }elseif ($requestMethod === 'POST') {
-                require_once './handle_add_product.php';
+                $basketController = new BasketController();
+                $basketController->checkProduct();
             }else {
                 echo "Такой метод не поддерживается";
             }
             break;
         case '/basket':
             if($requestMethod === 'GET') {
-                require_once './basket.php';
+                $basketController = new BasketController();
+                $basketController->showProductsInBasket();
             }
             else {
                 echo "Такой метод не поддерживается";
@@ -48,7 +64,7 @@
             break;
         default:
             http_response_code(404);
-            require_once './404.php';
+            require_once './../View/404.php';
             break;
     }
 ?>
