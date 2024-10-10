@@ -1,5 +1,7 @@
 <?php
 
+
+
 require_once './../Controller/UserController.php';
 
 $regUser = new UserController();
@@ -100,6 +102,8 @@ $logResult = $logUser->login();
 </div>
 </body>
 </html>
+
+
 
 
 <style>

@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 
 class BasketController
 {
@@ -12,9 +12,9 @@ class BasketController
 
         $errors = $this->validateProduct();
         if (empty($errors)) {
-            $pdo = new PDO('pgsql:host=postgres;port=5432;dbname=mydb', 'user', 'pass');
-            $stmt = $pdo->prepare("INSERT INTO user_products (user_id, product_id, amount) VALUES (:userId, :productId, :amount)");
-            $stmt->execute(['userId' => $userId, 'productId' => $productId, 'amount' => $amount]);
+            require_once "./../Model/UserProducts.php";
+            $userProducts = new UserProducts();
+            $userProducts->add($userId, $productId, $amount);
         }else{
             require_once "./../View/addProduct.php";
         }
@@ -25,25 +25,24 @@ class BasketController
 
         $errors = $this->validateProduct();
         if(empty($errors)) {
-            $pdo = new PDO('pgsql:host=postgres;port=5432;dbname=mydb', 'user', 'pass');
-            $stmt = $pdo->prepare("UPDATE user_products SET amount = :amount WHERE user_id = :user_id AND product_id = :product_id");
-            $stmt->execute(['user_id' => $userId, 'product_id' => $productId, 'amount' => $amount]);
+            require_once "./../Model/UserProducts.php";
+            $userProducts = new UserProducts();
+            $userProducts->addRepetition($userId, $productId, $amount);
         }else{
             require_once "./../View/addProduct.php";
         }
     }
     public function checkProduct()
     {
-        session_start();
+
         $userId = $_SESSION['user_id'];
         $errors = $this->validateProduct();
         if (empty($errors)) {
             $amount = $_POST['amount'];
             $productId = $_POST['product_id'];
-            $pdo = new PDO("pgsql:host=postgres; port=5432; dbname=mydb", "user", "pass");
-            $stmt = $pdo->prepare('SELECT * FROM user_products WHERE user_id = :userId AND product_id = :productId');
-            $stmt->execute(['userId' => $userId, 'productId' => $productId]);
-            $res = $stmt->fetch();
+            require_once "./../Model/UserProducts.php";
+            $userProducts = new UserProducts();
+            $res = $userProducts->check($userId, $productId);
             if($res === false){
                 $this->addProduct($productId, $amount, $userId);
             }else{
@@ -95,15 +94,9 @@ class BasketController
             header('Location: /login');
         }
 
-        $pdo = new PDO('pgsql:host=postgres;port=5432;dbname=mydb', 'user', 'pass');
-
-
-
-        $res = [];
-
-        $stmt = $pdo->prepare("SELECT * FROM user_products JOIN products ON user_products.product_id = products.id WHERE user_id = :user_id");
-        $stmt->execute(['user_id' => $user_id]);
-        $res = $stmt->fetchAll();
+        require_once "./../Model/UserProducts.php";
+        $userProducts = new UserProducts();
+        $res = $userProducts->getProductsInBasket($user_id);
         require_once "./../View/basket.php";
         return $res;
 

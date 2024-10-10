@@ -9,11 +9,9 @@ class ProductController
             header('Location: /login');
         }
 
-        $pdo = new PDO('pgsql:host=postgres;port=5432;dbname=mydb', 'user', 'pass');
-
-        $stmt = $pdo->prepare("SELECT *  FROM products");
-        $stmt->execute();
-        $products = $stmt->fetchAll();
+        require_once "./../Model/Product.php";
+        $product = new Product();
+        $products = $product->getProducts();
         require_once "./../View/catalog.php";
         return $products;
 
