@@ -1,12 +1,3 @@
-<?php
-require_once './../Controller/BasketController.php';
-
-$product = new BasketController();
-$result = $product->showProductsInBasket();
-
-
-?>
-
 
 <!DOCTYPE html>
 <!-- Coding By CodingNepal - www.codingnepalweb.com -->
@@ -25,15 +16,20 @@ $result = $product->showProductsInBasket();
 <body>
 
 <div class="container swiper">
-    <!-- <form action="/login" method="get">
-    <div class="button input-box" >
-        <input type="submit" value="logout">
+    <div class="cart">
+
+        <div class="buttons" >
+            <a class="a" href="/order">
+                <button class="cart-button"
+                        id="cart-button">Create order
+                </button>
+            </a>
+        </div>
     </div>
-    </form> -->
     <h1>Корзина</h1>
     <div class="card-wrapper">
         <!-- Card slides container -->
-        <?php foreach ($result as $r):?>
+        <?php foreach ($res as $r):?>
 
             <ul class="card-list swiper-wrapper">
                 <li class="card-item swiper-slide">
@@ -243,5 +239,8 @@ $result = $product->showProductsInBasket();
         border-bottom: 2px solid rgba(0, 0, 0, 0);
         transition: all 0.3s ease;
     }
+
+
+
 </style>
 

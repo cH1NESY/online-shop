@@ -1,11 +1,4 @@
-<?php
 
-require_once './../Controller/ProductController.php';
-$products = new ProductController();
-$result = $products->showProducts();
-
-
-?>
 
 
 <!DOCTYPE html>
@@ -25,15 +18,24 @@ $result = $products->showProducts();
 <body>
 
 <div class="container swiper">
-    <!--<form action="/add_product" method="get">
-   <div class="button input-box" >
-       <input type="submit" value="logout">
-   </div>
-   </form>-->
+
+    <div class="cart">
+        <div class="cart-number">
+            <img src="https://i.postimg.cc/RVxg5Wrx/supermarket.png" alt="">
+        </div>
+        <div class="buttons" >
+            <a class="a" href="/add_product">
+                <button class="cart-button"
+                      id="cart-button">Add to cart
+                </button>
+            </a>
+        </div>
+    </div>
+
     <h1>Catalog</h1>
     <div class="card-wrapper">
         <!-- Card slides container -->
-        <?php foreach ($result as $product):?>
+        <?php foreach ($products as $product):?>
             <ul class="card-list swiper-wrapper">
                 <li class="card-item swiper-slide">
                     <a href="#" class="card-link">
@@ -204,10 +206,7 @@ $result = $products->showProducts();
             display: none;
         }
     }
-    .button {
-        color: #fff;
-        margin-top: 40px;
-    }
+
     .button input {
         color: #fff;
         background: #7d2ae8;
@@ -238,7 +237,96 @@ $result = $products->showProducts();
         border-bottom: 2px solid rgba(0, 0, 0, 0);
         transition: all 0.3s ease;
     }
-</style>
-<script>
 
-</script>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+
+    body{
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: left;
+        align-items: flex-start;
+        margin: 0;
+        padding: 0;
+        flex-direction: column;
+        background-color: #1b1b1b;
+        font-family: 'Poppins', sans-serif;
+    }
+    .cart{
+        position: relative;
+        width: 300px;
+        height: auto;
+        cursor: pointer;
+        overflow: hidden;
+    }
+    .cart-number{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 150px;
+        padding: 50px 30px 10px;
+    }
+    .cart img{
+        width: 50px;
+        height: 50px;
+    }
+    .cart-button{
+        margin-top: 20px;
+        padding: 1px 30px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 70%;
+        font-size: 20px;
+        color: #000000;
+        transition: all 0.3s;
+        width: 180px;
+        z-index: 100;
+    }
+    button{
+        border: none;
+        background-color: #a647ff;
+        outline: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .buttons{
+        transition: all 0.3s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    a{
+        text-decoration: none
+    }
+    button:hover{
+        background-color: #ff6f00;
+    }
+
+    @keyframes pop-up{
+        0%{
+            transform: scale(0);
+        }
+        20%{
+            transform: scale(0.8);
+        }
+
+        100%{
+            transform: scale(1);
+        }
+    }
+    @keyframes pop-up-2{
+        0%{
+            transform: scale(1);
+        }
+        20%{
+            transform: scale(1.2);
+        }
+        100%{
+            transform: scale(1);
+        }
+    }
+</style>
+

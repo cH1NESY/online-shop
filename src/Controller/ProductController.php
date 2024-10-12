@@ -1,7 +1,13 @@
 <?php
-
+require_once "./../Model/Product.php";
 class ProductController
 {
+    private Product $product;
+
+    public function __construct()
+    {
+        $this->product = new Product();
+    }
     public function showProducts()
     {
         session_start();
@@ -9,11 +15,10 @@ class ProductController
             header('Location: /login');
         }
 
-        require_once "./../Model/Product.php";
-        $product = new Product();
-        $products = $product->getProducts();
+
+        $products = $this->product->getProducts();
         require_once "./../View/catalog.php";
-        return $products;
+
 
     }
 }

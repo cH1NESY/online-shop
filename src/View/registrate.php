@@ -1,16 +1,4 @@
-<?php
 
-
-
-require_once './../Controller/UserController.php';
-
-$regUser = new UserController();
-$regResult = $regUser->registrate();
-
-$logUser = new UserController();
-$logResult = $logUser->login();
-
-?>
 
 <!DOCTYPE html>
 <!-- Coding by CodingNepal | www.codingnepalweb.com-->
@@ -48,7 +36,7 @@ $logResult = $logUser->login();
                 <div class="title">Login</div>
                 <form action="/login" method="post">
                     <div class="input-boxes">
-                        <label style="color: #a647ff" ><?php if(!empty($logResult) && !empty($logResult['login'])  ){ print_r($logResult['login']) ;}?>  </label>
+                        <label style="color: #a647ff" ><?php if(!empty($errors) && !empty($errors['login'])  ){ print_r($errors['login']) ;}?>  </label>
                         <div class="input-box">
                             <i class="fas fa-envelope"></i>
                             <input type="text" name="login" placeholder="Enter your email" required>
@@ -70,22 +58,22 @@ $logResult = $logUser->login();
                 <div class="title">Signup</div>
                 <form action="/registration" method="post">
                     <div class="input-boxes">
-                        <label style="color: #a647ff" ><?php if(!empty($regResult) && !empty($regResult['name'])){ print_r($regResult['name']) ;}?>  </label>
+                        <label style="color: #a647ff" ><?php if(!empty($errors) && !empty($errors['name'])){ print_r($errors['name']) ;}?>  </label>
                         <div class="input-box">
                             <i class="fas fa-user"></i>
                             <input type="text" name="name" placeholder="Enter your name" required>
                         </div>
-                        <label style="color: #a647ff"> <?php if(!empty($regResult) && !empty($regResult['email'])){print_r($regResult['email']);} ?></label>
+                        <label style="color: #a647ff"> <?php if(!empty($errors) && !empty($errors['email'])){print_r($errors['email']);} ?></label>
                         <div class="input-box">
                             <i class="fas fa-envelope"></i>
                             <input type="text" name="email" placeholder="Enter your email" required>
                         </div>
-                        <label style="color: #a647ff"> <?php if(!empty($regResult) && !empty($regResult['password'])){print_r($regResult['password']);} ?></label>
+                        <label style="color: #a647ff"> <?php if(!empty($errors) && !empty($errors['password'])){print_r($errors['password']);} ?></label>
                         <div class="input-box">
                             <i class="fas fa-lock"></i>
                             <input type="password" name="password" placeholder="Enter your password" required>
                         </div>
-                        <label style="color: #a647ff"> <?php if(!empty($regResult) && !empty($regResult['repass'])){print_r($regResult['repass']);} ?></label>
+                        <label style="color: #a647ff"> <?php if(!empty($errors) && !empty($errors['repass'])){print_r($errors['repass']);} ?></label>
                         <div class="input-box">
                             <i class="fas fa-lock"></i>
                             <input type="repassword" name="repassword" placeholder="Repeat your password" required>

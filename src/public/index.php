@@ -4,61 +4,98 @@
     require_once './../Controller/UserController.php';
     require_once './../Controller/BasketController.php';
     require_once './../Controller/ProductController.php';
+    require_once './../Controller/OrderController.php';
 
 
-    switch ($requestUri){
+    switch ($requestUri)
+    {
         case '/login':
-            if($requestMethod === 'GET') {
+            if($requestMethod === 'GET')
+            {
 
                 $userController = new UserController();
                 $userController->getRegistrateForm();
-            }elseif ($requestMethod === 'POST') {
+            }
+            elseif ($requestMethod === 'POST')
+            {
 
                 $userController = new UserController();
                 $userController->login();
-            }else {
+            }
+            else
+            {
                 echo "Такой метод не поддерживается";
             }
             break;
         case '/registration':
-            if($requestMethod === 'GET') {
+            if($requestMethod === 'GET')
+            {
 
                 $userController = new UserController();
                 $userController->getRegistrateForm();
-            }elseif ($requestMethod === 'POST') {
+            }
+            elseif ($requestMethod === 'POST')
+            {
 
                 $userController = new UserController();
                 $userController->registrate();
-            }else {
+            }
+            else
+            {
                 echo "Такой метод не поддерживается";
             }
             break;
         case '/catalog':
-            if ($requestMethod === 'GET') {
+            if ($requestMethod === 'GET')
+            {
                $productController = new ProductController();
                $productController->showProducts();
             }
-            else {
+            else
+            {
                 echo "Такой метод не поддерживается";
             }
             break;
         case '/add_product':
-            if($requestMethod === 'GET') {
+            if($requestMethod === 'GET')
+            {
                 $basketController = new BasketController();
                 $basketController->getAddProductForm();
-            }elseif ($requestMethod === 'POST') {
+            }
+            elseif ($requestMethod === 'POST')
+            {
                 $basketController = new BasketController();
-                $basketController->checkProduct();
-            }else {
+                $basketController->addProduct();
+            }
+            else
+            {
                 echo "Такой метод не поддерживается";
             }
             break;
         case '/basket':
-            if($requestMethod === 'GET') {
+            if($requestMethod === 'GET')
+            {
                 $basketController = new BasketController();
                 $basketController->showProductsInBasket();
             }
-            else {
+            else
+            {
+                echo "Такой метод не поддерживается";
+            }
+            break;
+        case '/order':
+            if($requestMethod === 'GET')
+            {
+                $orderController = new OrderController();
+                $orderController->showProductsInOrder();
+            }
+            elseif ($requestMethod === 'POST')
+            {
+                $orderController = new OrderController();
+                $orderController->createOrder();
+            }
+            else
+            {
                 echo "Такой метод не поддерживается";
             }
             break;

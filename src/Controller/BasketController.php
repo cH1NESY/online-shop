@@ -1,53 +1,37 @@
 <?php
-session_start();
+require_once "./../Model/UserProduct.php";
 
 class BasketController
 {
+
+    private UserProduct $userProduct;
+
+    public function __construct( )
+    {
+        $this->userProduct = new UserProduct();
+    }
     public function getAddProductForm()
     {
         require_once "./../View/addProduct.php";
     }
-    private function addProduct($productId, $amount, $userId)
+
+    public function addProduct()
     {
-
-        $errors = $this->validateProduct();
-        if (empty($errors)) {
-            require_once "./../Model/UserProducts.php";
-            $userProducts = new UserProducts();
-            $userProducts->add($userId, $productId, $amount);
-        }else{
-            require_once "./../View/addProduct.php";
-        }
-    }
-
-    private function addRepeatProduct($productId ,$amount, $userId)
-    {
-
-        $errors = $this->validateProduct();
-        if(empty($errors)) {
-            require_once "./../Model/UserProducts.php";
-            $userProducts = new UserProducts();
-            $userProducts->addRepetition($userId, $productId, $amount);
-        }else{
-            require_once "./../View/addProduct.php";
-        }
-    }
-    public function checkProduct()
-    {
-
+        session_start();
         $userId = $_SESSION['user_id'];
         $errors = $this->validateProduct();
         if (empty($errors)) {
             $amount = $_POST['amount'];
             $productId = $_POST['product_id'];
-            require_once "./../Model/UserProducts.php";
-            $userProducts = new UserProducts();
-            $res = $userProducts->check($userId, $productId);
+
+            $res = $this->userProduct->getByUserIdAndByProductId($userId, $productId);
             if($res === false){
-                $this->addProduct($productId, $amount, $userId);
+
+                $this->userProduct->addProductInBasket($userId, $productId, $amount);
             }else{
                 $amount += $res['amount'];
-                $this->addRepeatProduct($productId ,$amount, $userId);
+
+                $this->userProduct->updateAmount($userId, $productId, $amount);
             }
             header('Location: /basket');
         }else{
@@ -94,11 +78,11 @@ class BasketController
             header('Location: /login');
         }
 
-        require_once "./../Model/UserProducts.php";
-        $userProducts = new UserProducts();
-        $res = $userProducts->getProductsInBasket($user_id);
+        require_once "./../Model/UserProduct.php";
+
+        $res = $this->userProduct->getProductsByUserId($user_id);
         require_once "./../View/basket.php";
-        return $res;
+
 
     }
 }

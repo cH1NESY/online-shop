@@ -1,8 +1,14 @@
 <?php
-
+require_once "./../Model/User.php";
 
 class UserController
 {
+    private User $user;
+
+    public function __construct()
+    {
+        $this->user = new User();
+    }
     public function getRegistrateForm()
     {
         require_once "./../View/registrate.php";
@@ -21,19 +27,18 @@ class UserController
 
             $hash = password_hash($pass, PASSWORD_DEFAULT);
 
-            require_once "./../Model/User.php";
-            $user = new User();
-            $user->create($name, $true_email, $hash);
+
+
+            $this->user->createNewUser($name, $true_email, $hash);
 
 
             header('Location: /login');
 
         }
         require_once "./../View/registrate.php";
-        return $errors;
+
 
     }
-
 
     private function validateRegistration()
     {
@@ -145,10 +150,7 @@ class UserController
             $login = $_POST['login'];
             $pass = $_POST['password'];
 
-
-            require_once "./../Model/User.php";
-            $user = new User();
-            $data = $user->check($login);
+            $data = $this->user->getByLogin($login);
 
 
             if($data === false){
@@ -171,7 +173,7 @@ class UserController
 
         }
         require_once "./../View/registrate.php";
-        return $errors;
+
     }
 
     private function validateLogin()
