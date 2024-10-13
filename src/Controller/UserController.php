@@ -15,26 +15,21 @@ class UserController
     }
     public function registrate()
     {
-
         $errors = $this->validateRegistration();
-
         if (empty($errors)) {
             $name = $_POST['name'];
             $email = $_POST['email'];
             $pass = $_POST['password'];
             $repass = $_POST['repassword'];
-            $true_email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
+
 
             $hash = password_hash($pass, PASSWORD_DEFAULT);
 
 
-
-            $this->user->createNewUser($name, $true_email, $hash);
-
-
+            $this->user->createNewUser($name, $email, $hash);
             header('Location: /login');
-
         }
+
         require_once "./../View/registrate.php";
 
 
@@ -43,13 +38,6 @@ class UserController
     private function validateRegistration()
     {
         $errors = [];
-
-        if(isset($_POST['login'])){
-            $login = $_POST['login'];
-        }
-        else{
-            $errors['login'] = "Поле email должно быть заполнено";
-        }
 
 
 
