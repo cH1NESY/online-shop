@@ -29,7 +29,8 @@ class OrderProduct
     {
         $pdo = new PDO('pgsql:host=postgres;port=5432;dbname=mydb', 'user', 'pass');
         $stmt = $pdo->prepare("SELECT * FROM order_products 
-        JOIN products ON user_products.product_id = products.id WHERE user_id = :user_id");
+        JOIN products ON user_products.product_id = products.id 
+        JOIN orders ON user_products.orderId = orders.id WHERE user_id = :user_id");
         $stmt->execute(['user_id' => $userId]);
         $res = $stmt->fetchAll();
         return $res;

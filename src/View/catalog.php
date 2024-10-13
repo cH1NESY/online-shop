@@ -83,7 +83,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        min-height: 100vh;
+
         background: linear-gradient(#ECEFFE, #C5CFFC);
     }
 
@@ -113,9 +113,14 @@
     .card-list .card-item .card-link:active {
         cursor: grabbing;
     }
+    .card-list .card-item .card-link {
+
+        margin: 10px;
+    }
 
     .card-list .card-item .card-link:hover {
         border-color: #5372F0;
+
     }
 
     .card-list .card-link .card-image {
@@ -242,7 +247,7 @@
 
     body{
         width: 100%;
-        height: 100vh;
+
         display: flex;
         justify-content: left;
         align-items: flex-start;
@@ -258,6 +263,7 @@
         height: auto;
         cursor: pointer;
         overflow: hidden;
+
     }
     .cart-number{
         display: flex;
