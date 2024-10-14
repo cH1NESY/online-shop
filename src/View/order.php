@@ -6,10 +6,12 @@
                 <div class="row">
                     <div class="col-50">
                         <h3>Billing Address</h3>
+                        <label for="fname"><i class="fa fa-user"></i> Name</label>
+                        <input type="text" id="name" name="name" placeholder="">
                         <label for="fname"><i class="fa fa-user"></i> Phone Number</label>
-                        <input type="text" id="fname" name="phoneNumber" placeholder="">
+                        <input type="text" id="phoneNumber" name="phoneNumber" placeholder="">
                         <label for="adr"><i class="fa fa-address-card-o"></i> Address</label>
-                        <input type="text" id="adr" name="address" placeholder="">
+                        <input type="text" id="address" name="address" placeholder="">
                     </div>
 
                 </div>

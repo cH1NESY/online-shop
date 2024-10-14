@@ -1,18 +1,21 @@
 <?php
 require_once "./../Model/Order.php";
 require_once "./../Model/UserProduct.php";
+require_once "./../Model/OrderProduct.php";
 class OrderController
 {
     private Order $order;
     private UserProduct $userProduct;
+    private OrderProduct $orderProduct;
 
     public function __construct()
     {
         $this->order = new Order();
         $this->userProduct = new UserProduct();
+        $this->orderProduct = new OrderProduct();
     }
 
-    public function showProductsInOrder()
+    public function showProductsReadyToOrder()
     {
         session_start();
         $user_id = $_SESSION['user_id'];
@@ -27,13 +30,73 @@ class OrderController
     }
 
     public function createOrder(){
-        session_start();
-        $userId = $_SESSION['user_id'];
+        $errors = $this->validateOrder();
+        if(empty($errors))
+        {
+            session_start();
+            $userId = $_SESSION['user_id'];
+            $name = $_POST['name'];
+            $address = $_POST["address"];
+            $phoneNumber = $_POST["phoneNumber"];
+            $this->order->createNewOrder($userId, $name, $phoneNumber, $address);
 
-        $address = $_POST["address"];
-        $phoneNumber = $_POST["phoneNumber"];
-        $this->order->createNewOrder($userId, $address, $phoneNumber);
-        header('Location: /order');
+            $orderId = $this->order->getOrderIdByUser($userId);
 
+            foreach ($this->userProduct->getProductsByUserId($userId) as $product){
+                $this->orderProduct->addProductInOrder($orderId['id'], $product['id'], $product['amount'], $product['price']);
+            }
+
+            $this->userProduct->deleteProductByUserId($userId);
+            header('Location: /order');
+        }else{
+            require_once "./../View/order.php";
+        }
+    }
+
+    private function validateOrder(): array //переделать валидацию, после создания таблицы в бд
+    {
+        $errors = [];
+
+        if (isset($_POST['name'])) {
+            $name = ($_POST['name']);
+            if (strlen($name) < 3 || strlen($name) > 20) {
+                $errors['firstName'] = "Имя должно содержать не меньше 3 символов и не больше 20 символов";
+            } elseif (!preg_match("/^[a-zA-Zа-яА-Я]+$/u", $name)) {
+                $errors['firstName'] = "Имя может содержать только буквы";
+            }
+        }else{
+            $errors ['firstName'] = "Поле name должно быть заполнено";
+        }
+
+
+
+        if (isset($_POST['address'])) {
+            $address = ($_POST['address']);
+           if (strlen($address) < 3 || strlen($address) > 100) {
+                $errors['address'] = "Адресс должен содержать не меньше 3 символов и не больше 100 символов";
+           } elseif (!preg_match("/^[a-zA-Zа-яА-Я0-9 ,.-]+$/u", $address)) {
+                $errors['address'] = "Адресс может содержать только буквы и цифры";
+           }
+        }else {
+            $errors ['address'] = "Поле address должно быть заполнено";
+        }
+
+
+
+
+        if (isset($_POST['phoneNumber'])) {
+            $phone = ($_POST['phoneNumber']);
+            if (!preg_match("/^[0-9]+$/u", $phone)) {
+                $errors['phone'] = "Номер телефона может содержать только цифры";
+            } elseif (strlen($phone) < 3 || strlen($phone) > 15) {
+                $errors['phone'] = "Номер телефона должен содержать не меньше 3 символов и не больше 15 символов";
+            }
+        }else {
+            $errors ['phone'] = "Поле phoneNumber должно быть заполнено";
+        }
+
+
+
+        return $errors;
     }
 }
