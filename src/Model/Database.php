@@ -1,5 +1,6 @@
 <?php
-//namespace Model;
+namespace Model;
+use pdo;
 class Database
 {
     private $pdo;

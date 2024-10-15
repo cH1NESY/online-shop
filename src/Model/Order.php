@@ -1,6 +1,8 @@
 <?php
-require_once './../Model/Database.php';
-//namespace Model\Database;
+//require_once './../Model/Database.php';
+
+namespace Model;
+use Model\Database;
 class order
 {
     private Database $pdo;

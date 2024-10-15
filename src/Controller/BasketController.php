@@ -1,7 +1,7 @@
 <?php
 
-//namespace Controller;
-//use Model\UserProduct;
+namespace Controller;
+use Model\UserProduct;
 class BasketController
 {
 

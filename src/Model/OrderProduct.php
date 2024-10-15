@@ -1,6 +1,7 @@
 <?php
-//namespace Model\Database;
-require_once './../Model/Database.php';
+namespace Model;
+//require_once './../Model/Database.php';
+use Model\Database;
 class OrderProduct
 {
     private Database $pdo;

@@ -1,7 +1,7 @@
 <?php
 
-//namespace Controller;
-//use Model\User;
+namespace Controller;
+use Model\User;
 class UserController
 {
     private User $user;

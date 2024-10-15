@@ -1,8 +1,8 @@
 <?php
-//namespace Controller;
-//use Model\UserProduct;
-//use Model\Order;
-//use Model\OrderProduct;
+namespace Controller;
+use Model\UserProduct;
+use Model\Order;
+use Model\OrderProduct;
 class OrderController
 {
     private Order $order;
