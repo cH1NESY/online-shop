@@ -1,6 +1,7 @@
 <?php
-require_once "./../Model/UserProduct.php";
 
+//namespace Controller;
+//use Model\UserProduct;
 class BasketController
 {
 
@@ -45,7 +46,7 @@ class BasketController
 
         if (isset($_POST['product_id'])) {
             $productId = $_POST['product_id'];
-            $pdo = new PDO('pgsql:host=postgres;port=5432;dbname=mydb', 'user', 'pass');
+            $pdo = new database('pgsql:host=postgres;port=5432;dbname=mydb', 'user', 'pass');
             $stmt = $pdo->prepare('SELECT id FROM products WHERE id = :productId');
             $stmt->execute(['productId' => $productId]);
             $products = $stmt->fetch();

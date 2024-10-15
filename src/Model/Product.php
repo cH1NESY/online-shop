@@ -1,16 +1,17 @@
 <?php
-
+//namespace Model\Database;
+require_once './../Model/Database.php';
 class Product
 {
-    private $pdo;
+    private Database $pdo;
     public function __construct()
     {
-        $this->pdo = new PDO('pgsql:host=postgres;port=5432;dbname=mydb', 'user', 'pass');
+        $this->pdo = new Database();
     }
     public function getProducts(): array
     {
-
-        $stmt = $this->pdo->prepare("SELECT *  FROM products");
+        $connect = $this->pdo->connectToDatabase();
+        $stmt = $connect->prepare("SELECT *  FROM products");
         $stmt->execute();
         $products = $stmt->fetchAll();
         return $products;

@@ -1,5 +1,6 @@
 <?php
-require_once "./../Model/Product.php";
+//namespace Controller;
+//use Model\Product;
 class ProductController
 {
     private Product $product;

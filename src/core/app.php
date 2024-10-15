@@ -1,14 +1,50 @@
 <?php
 
+//use Controller\ProductController;
+//use Controller\OrderController;
+//use Controller\BasketController;
+//use Controller\UserController;
 
-require_once './../Controller/UserController.php';
-require_once './../Controller/BasketController.php';
-require_once './../Controller/ProductController.php';
-require_once './../Controller/OrderController.php';
+$autholoadController = function (string $controllerName)
+{
+   $path =  "./../Controller/$controllerName.php";
+   if(file_exists($path))
+   {
+       require_once $path;
+       return true;
+   }
+   return false;
+};
 
+$autholoadModel = function (string $modelName)
+{
+    $path = "./../Model/$modelName.php";
+    if(file_exists($path))
+    {
+        require_once $path;
+        return true;
+    }
+    return false;
+};
 
+    spl_autoload_register($autholoadController);
+    spl_autoload_register($autholoadModel);
+
+//$autholoadController = function (string $controllerName)
+//{
+//   $path = '/' . str_replace('\\' , '/' , $controllerName) . '.php';
+//
+//   if(file_exists($path))
+//   {
+//       require_once $path;
+//       return true;
+//   }
+//   return false;
+//};
 class app
 {
+
+
     private array $routes = [
         '/login' =>[
             'GET' => [
@@ -69,9 +105,9 @@ class app
         $requestMethod = $_SERVER['REQUEST_METHOD'];
         if (array_key_exists($requestUri, $this->routes) && array_key_exists($requestMethod, $this->routes[$requestUri])) {
 
-            $route = $this->routes[$requestUri][$requestMethod];
-            $controllerClass = $route['class'];
-            $controllerMethod = $route['method'];
+            $classAndMethod = $this->routes[$requestUri][$requestMethod];
+            $controllerClass = $classAndMethod['class'];
+            $controllerMethod = $classAndMethod['method'];
             $controller = new $controllerClass();
 
             if (method_exists($controller, $controllerMethod)) {

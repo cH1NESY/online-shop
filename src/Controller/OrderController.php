@@ -1,7 +1,8 @@
 <?php
-require_once "./../Model/Order.php";
-require_once "./../Model/UserProduct.php";
-require_once "./../Model/OrderProduct.php";
+//namespace Controller;
+//use Model\UserProduct;
+//use Model\Order;
+//use Model\OrderProduct;
 class OrderController
 {
     private Order $order;
