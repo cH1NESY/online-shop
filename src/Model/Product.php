@@ -17,4 +17,13 @@ class Product
         $products = $stmt->fetchAll();
         return $products;
     }
+
+    public function getProductsByProductId(int $productId): array |false
+    {
+        $connect = $this->pdo->connectToDatabase();
+        $stmt = $connect->prepare('SELECT id FROM products WHERE id = :productId');
+        $stmt->execute(['productId' => $productId]);
+        $products = $stmt->fetch();
+        return $products;
+    }
 }

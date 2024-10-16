@@ -2,14 +2,17 @@
 
 namespace Controller;
 use Model\UserProduct;
+use Model\Product;
 class BasketController
 {
 
     private UserProduct $userProduct;
+    private Product $product;
 
     public function __construct( )
     {
         $this->userProduct = new UserProduct();
+        $this->product = new Product();
     }
     public function getAddProductForm()
     {
@@ -46,10 +49,7 @@ class BasketController
 
         if (isset($_POST['product_id'])) {
             $productId = $_POST['product_id'];
-            $pdo = new database('pgsql:host=postgres;port=5432;dbname=mydb', 'user', 'pass');
-            $stmt = $pdo->prepare('SELECT id FROM products WHERE id = :productId');
-            $stmt->execute(['productId' => $productId]);
-            $products = $stmt->fetch();
+            $products = $this->product->getProductsByProductId($productId);
 
             if($products === false){
                 $errors['product_id'] = "Нет такого id";

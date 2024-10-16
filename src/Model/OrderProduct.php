@@ -12,7 +12,7 @@ class OrderProduct
     public function addProductInOrder(int $orderId, int $productId, int $amount, int $price)
     {
         $connect = $this->pdo->connectToDatabase();
-        $stmt = $connect->connectToDatabase()->prepare("INSERT INTO order_products (orderId, productId, amount, price) 
+        $stmt = $connect->prepare("INSERT INTO order_products (orderId, productId, amount, price) 
             VALUES (:orderId, :productId, :amount, :price)");
         $stmt->execute(['orderId' => $orderId, 'productId' => $productId, 'amount' => $amount, 'price' => $price]);
 
