@@ -19,7 +19,13 @@
 
 <div class="container swiper">
 
-
+    <div class="buttons" >
+        <a class="a" href="/basket">
+            <button class="cart-button"
+                    id="cart-button">basket
+            </button>
+        </a>
+    </div>
 
     <h1>Catalog</h1>
     <div class="card-wrapper">

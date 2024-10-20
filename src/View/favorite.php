@@ -18,7 +18,13 @@
 <body>
 
 <div class="container swiper">
-
+    <div class="buttons" >
+        <a class="a" href="/catalog">
+            <button class="cart-button"
+                    id="cart-button">catalog
+            </button>
+        </a>
+    </div>
 
 
     <h1>Favorite</h1>
@@ -52,9 +58,28 @@
                 </li>
 
             </ul>
+            <form action="/add_product" method="post">
+                <div class="input-boxes">
+                    <label style="color: #a647ff" ><?php if(!empty($errors) && !empty($errors['product_id'])){ print_r($errors['product_id']) ;}?>  </label>
+                    <div class="input-box">
+                        <i class="fas fa-user"></i>
+                        <input type="hidden" value="<?= $product['id']?>" name="product_id" placeholder="Enter product_id" required>
+                    </div>
+                    <label style="color: #a647ff"> <?php if(!empty($errors) && !empty($errors['amount'])){print_r($errors['amount']);} ?></label>
+                    <div class="input-box">
+                        <i class="fas fa-envelope"></i>
+                        <input type="text" name="amount" placeholder="Enter amount" required>
+                    </div>
 
+                    <div class="button input-box">
+                        <input type="submit" value="add">
+                    </div>
+
+                </div>
+            </form>
 
         <?php endforeach;?>
+
         <!-- Pagination -->
         <div class="swiper-pagination"></div>
 
