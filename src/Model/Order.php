@@ -13,8 +13,9 @@ class order
     public function createNewOrder($userId, $contactName, $contactNumber, $address)
     {
         $connect = $this->pdo->connectToDatabase();
-        $stmt = $connect->prepare("INSERT INTO orders (userId, contactName, contactNumber, address)
-            VALUES (:userId, :contactName, :contactNumber, :address)");
+        $stmt = $connect->prepare("INSERT INTO orders (userId, contactName, contactNumber, address) 
+        VALUES (:userId, :contactName, :contactNumber, :address)");
+
         $stmt->execute(['userId' => $userId, 'contactName' => $contactName, 'contactNumber' => $contactNumber, 'address' => $address]);
     }
 

@@ -18,10 +18,18 @@ class Product
         return $products;
     }
 
-    public function getProductsByProductId(int $productId): array |false
+    public function getProductIdsByProductId(int $productId): array |false
     {
         $connect = $this->pdo->connectToDatabase();
         $stmt = $connect->prepare('SELECT id FROM products WHERE id = :productId');
+        $stmt->execute(['productId' => $productId]);
+        $products = $stmt->fetch();
+        return $products;
+    }
+    public function getProductsByProductId(int $productId): array |false
+    {
+        $connect = $this->pdo->connectToDatabase();
+        $stmt = $connect->prepare('SELECT * FROM products WHERE id = :productId');
         $stmt->execute(['productId' => $productId]);
         $products = $stmt->fetch();
         return $products;

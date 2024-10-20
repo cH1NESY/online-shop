@@ -21,7 +21,7 @@
 
 
 
-    <h1>Catalog</h1>
+    <h1>Favorite</h1>
     <div class="card-wrapper">
         <!-- Card slides container -->
         <?php foreach ($products as $product):?>
@@ -33,7 +33,7 @@
                         <p class="badge badge-designer"><?php echo $product['title'];?></p>
                         <h2 class="card-title"><?php echo $product['description'] ?></h2>
                         <label ><?php echo $product['price'] . 'руб';?></label>
-                        <form action="/add_favorite" method="post">
+                        <form action="/favorite" method="post">
                             <div class="input-boxes">
 
                                 <div class="input-box">
@@ -42,7 +42,7 @@
                                 </div>
 
                                 <div class="button input-box">
-                                    <input type="submit" value="addInFavorite">
+                                    <input type="submit" value="delete">
                                 </div>
 
                             </div>
@@ -52,25 +52,6 @@
                 </li>
 
             </ul>
-            <form action="/add_product" method="post">
-                <div class="input-boxes">
-                    <label style="color: #a647ff" ><?php if(!empty($errors) && !empty($errors['product_id'])){ print_r($errors['product_id']) ;}?>  </label>
-                    <div class="input-box">
-                        <i class="fas fa-user"></i>
-                        <input type="hidden" value="<?= $product['id']?>" name="product_id" placeholder="Enter product_id" required>
-                    </div>
-                    <label style="color: #a647ff"> <?php if(!empty($errors) && !empty($errors['amount'])){print_r($errors['amount']);} ?></label>
-                    <div class="input-box">
-                        <i class="fas fa-envelope"></i>
-                        <input type="text" name="amount" placeholder="Enter amount" required>
-                    </div>
-
-                    <div class="button input-box">
-                        <input type="submit" value="add">
-                    </div>
-
-                </div>
-            </form>
 
 
         <?php endforeach;?>

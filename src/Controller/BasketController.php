@@ -49,7 +49,7 @@ class BasketController
 
         if (isset($_POST['product_id'])) {
             $productId = $_POST['product_id'];
-            $products = $this->product->getProductsByProductId($productId);
+            $products = $this->product->getProductIdsByProductId($productId);
 
             if($products === false){
                 $errors['product_id'] = "Нет такого id";

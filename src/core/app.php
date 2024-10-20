@@ -10,60 +10,8 @@ class app
 {
 
 
-    private array $routes = [
-        '/login' =>[
-            'GET' => [
-                'class' => 'Controller\UserController',
-                'method' => 'getRegistrateForm'
-            ],
-            'POST' => [
-                'class' => 'Controller\UserController',
-                'method' => 'login'
-            ]
-        ],
-        '/registration' =>[
-            'GET' => [
-                'class' => 'Controller\UserController',
-                'method' => 'getRegistrateForm'
-            ],
-            'POST' => [
-                'class' => 'Controller\UserController',
-                'method' => 'registrate'
-            ]
-        ],
-        '/catalog' =>[
-            'GET' => [
-                'class' => 'Controller\ProductController',
-                'method' => 'showProducts'
-            ]
-        ],
-        '/add_product' =>[
-            'GET' => [
-                'class' => 'Controller\BasketController',
-                'method' => 'getAddProductForm'
-            ],
-            'POST' => [
-                'class' => 'Controller\BasketController',
-                'method' => 'addProduct'
-            ]
-        ],
-        '/basket' =>[
-            'GET' => [
-                'class' => 'Controller\BasketController',
-                'method' => 'showProductsInBasket'
-            ]
-        ],
-        '/order' =>[
-            'GET' => [
-                'class' => 'Controller\OrderController',
-                'method' => 'showProductsReadyToOrder'
-            ],
-            'POST' => [
-                'class' => 'Controller\OrderController',
-                'method' => 'createOrder'
-            ]
-        ]
-    ];
+    private array $routes = [];
+
     public function run()
     {
         $requestUri = $_SERVER['REQUEST_URI'];
@@ -87,5 +35,10 @@ class app
             http_response_code(404);
             require_once '../View/404.php';
         }
+    }
+
+    public function addRoute(string $route, string $method, string $class, string $methodName)
+    {
+        $this->routes[$route][$method] = ['class'=> $class, 'method' => $methodName];
     }
 }
