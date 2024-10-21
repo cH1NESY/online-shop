@@ -1,21 +1,10 @@
 <?php
 
-
+require_once "./../core/Autoload.php";
 use core\app;
+use core\Autoload;
 
-$autholoadController = function (string $controllerName)
-{
-   $path = './../' . str_replace('\\' , '/' , $controllerName) . '.php';
-
-   if(file_exists($path))
-   {
-       require_once $path;
-       return true;
-   }
-   return false;
-};
-
-spl_autoload_register($autholoadController);
+Autoload::registrate("/var/www/html/src/");
 $app = new App();
 
 $app->addRoute('/login', 'GET', 'Controller\UserController', 'getRegistrateForm');
