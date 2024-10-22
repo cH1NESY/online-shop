@@ -39,13 +39,13 @@ class OrderController
             $name = $_POST['name'];
             $address = $_POST["address"];
             $phoneNumber = $_POST["phoneNumber"];
-            //$resProd = $this->userProduct->getProductsByUserId($userId);
-            //$allPrice = 0;
-            //foreach ($resProd as $r){
-            //    $totalPrice = $r["price"] * $r["amount"];
-            //    $allPrice += $totalPrice;
-            //}
-            $this->order->createNewOrder($userId, $name, $phoneNumber, $address);
+            $resProd = $this->userProduct->getProductsByUserId($userId);
+            $allPrice = 0;
+            foreach ($resProd as $r){
+                $totalPrice = $r["price"] * $r["amount"];
+                $allPrice += $totalPrice;
+            }
+            $this->order->createNewOrder($userId, $name, $phoneNumber, $address, $allPrice);
 
             $orderId = $this->order->getOrderIdByUser($userId);
 

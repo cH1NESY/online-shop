@@ -29,11 +29,11 @@ class BasketController
             $productId = $_POST['product_id'];
 
             $res = $this->userProduct->getByUserIdAndByProductId($userId, $productId);
-            if($res === false){
+            if(empty($res)){
 
                 $this->userProduct->addProductInBasket($userId, $productId, $amount);
             }else{
-                $amount += $res['amount'];
+                $amount += $res->getAmount();
 
                 $this->userProduct->updateAmount($userId, $productId, $amount);
             }
@@ -82,6 +82,8 @@ class BasketController
         require_once "./../Model/UserProduct.php";
 
         $res = $this->userProduct->getProductsByUserId($user_id);
+
+
         require_once "./../View/basket.php";
 
 

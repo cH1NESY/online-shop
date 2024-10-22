@@ -35,16 +35,16 @@
                 <li class="card-item swiper-slide">
                     <a href="#" class="card-link">
 
-                        <img src="<?php echo $product['image']?>" alt="Card Image" class="card-image">
-                        <p class="badge badge-designer"><?php echo $product['title'];?></p>
-                        <h2 class="card-title"><?php echo $product['description'] ?></h2>
-                        <label ><?php echo $product['price'] . 'руб';?></label>
+                        <img src="<?php echo $product->getImage()?>" alt="Card Image" class="card-image">
+                        <p class="badge badge-designer"><?php echo $product->getTitle();?></p>
+                        <h2 class="card-title"><?php echo $product->getDescription(); ?></h2>
+                        <label ><?php echo $product->getPrice() . 'руб';?></label>
                         <form action="/add_favorite" method="post">
                             <div class="input-boxes">
 
                                 <div class="input-box">
                                     <i class="fas fa-user"></i>
-                                    <input type="hidden" value="<?= $product['id']?>" name="product_id" placeholder="Enter product_id" required>
+                                    <input type="hidden" value="<?= $product->getId()?>" name="product_id" placeholder="Enter product_id" required>
                                 </div>
 
                                 <div class="button input-box">
@@ -63,7 +63,7 @@
                     <label style="color: #a647ff" ><?php if(!empty($errors) && !empty($errors['product_id'])){ print_r($errors['product_id']) ;}?>  </label>
                     <div class="input-box">
                         <i class="fas fa-user"></i>
-                        <input type="hidden" value="<?= $product['id']?>" name="product_id" placeholder="Enter product_id" required>
+                        <input type="hidden" value="<?= $product->getId()?>" name="product_id" placeholder="Enter product_id" required>
                     </div>
                     <label style="color: #a647ff"> <?php if(!empty($errors) && !empty($errors['amount'])){print_r($errors['amount']);} ?></label>
                     <div class="input-box">

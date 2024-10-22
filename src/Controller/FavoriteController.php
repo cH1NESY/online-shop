@@ -22,11 +22,10 @@ class FavoriteController
 
             $res = $this->userFavorites->getByUserIdAndByProductId($userId, $productId);
 
-            if($res === false){
+            if(empty($res)){
                 $this->userFavorites->addProductInFavorite($userId, $productId);
             }else{
                 $this->userFavorites->deleteProduct($userId, $productId);
-
             }
 
             header('Location: /favorite');
@@ -54,7 +53,7 @@ class FavoriteController
         $productsInFavorite = $this->userFavorites->getProductsByUserId($user_id);
 
         foreach($productsInFavorite as $productInFavorite){
-            $product = $this->product->getProductsByProductId($productInFavorite['productid']);
+            $product = $this->product->getProductsByProductId($productInFavorite->getProductId());
             $products[] = $product;
         }
 

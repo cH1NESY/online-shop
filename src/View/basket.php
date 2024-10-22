@@ -35,11 +35,11 @@
                 <li class="card-item swiper-slide">
                     <a href="#" class="card-link">
                         <?php $allPrice = 1;?>
-                        <img src="<?php echo $r['image']?>" alt="Card Image" class="card-image">
-                        <p class="badge badge-designer"><?php echo $r['title']?></p>
-                        <h2 class="card-title"><?php echo $r['description'] ?></h2>
-                        <label ><?php echo "Цена за штуку: " . $r['price'] . 'руб' ?></label><br/>
-                        <label ><?php echo "Количество: " . $r['amount'] ?></label><br/>
+                        <img src="<?php echo $r->getImage()?>" alt="Card Image" class="card-image">
+                        <p class="badge badge-designer"><?php echo $r->getTitle()?></p>
+                        <h2 class="card-title"><?php echo $r->getDescription() ?></h2>
+                        <label ><?php echo "Цена за штуку: " . $r->getPrice() . 'руб' ?></label><br/>
+                        <label ><?php echo "Количество: " . $r->getAmount() ?></label><br/>
                         <?php $allPrice = $r['price']*$r['amount']; echo "Цена: " . $allPrice . " руб"?>
 
                     </a>

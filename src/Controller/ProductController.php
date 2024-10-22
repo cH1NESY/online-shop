@@ -16,8 +16,9 @@ class ProductController
             header('Location: /login');
         }
 
-
         $products = $this->product->getProducts();
+
+
         require_once "./../View/catalog.php";
 
 

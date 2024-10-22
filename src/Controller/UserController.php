@@ -142,16 +142,16 @@ class UserController
             $data = $this->user->getByLogin($login);
 
 
-            if($data === false){
+            if(empty($data)){
                 $errors['login'] = "Пароль или Логин неверный";
 
             }else{
-                $pass_db = $data['password'] ;
+                $pass_db = $data->getPassword() ;
 
                 if(password_verify($pass, $pass_db)) {
 
                     session_start();
-                    $_SESSION['user_id'] = $data['id'];
+                    $_SESSION['user_id'] = $data->getId();
                     header('Location: /catalog');
                 }
                 else{
