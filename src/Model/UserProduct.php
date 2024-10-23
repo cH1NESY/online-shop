@@ -3,19 +3,16 @@ namespace Model;
 //require_once './../Model/Database.php';
 
 use Model\Database;
-use Model\Product;
+
 class UserProduct extends Database
 {
     private int $id;
-    private int $userId;
-    private int $productId;
-    private int $amount;
+    private User $user;
     private Product $product;
+    private int $amount;
 
-    public function __construct()
-    {
-        $this->product = new Product();
-    }
+
+
     public function getByUserIdAndByProductId(int $userId, int $productId):self|null
     {
 
@@ -47,7 +44,10 @@ class UserProduct extends Database
     public function getProductsByUserId(int $userId): array|null
     {
 
-        $stmt = $this->pdo->prepare("SELECT * FROM user_products JOIN products ON user_products.productId = products.id WHERE userId = :userId");
+        $stmt = $this->pdo->prepare("SELECT * FROM user_products 
+                                            JOIN products ON user_products.productId = products.id 
+                                            JOIN users ON users.id = user_products.userId
+                                            WHERE userId = :userId");
         $stmt->execute(['userId' => $userId]);
         $res = $stmt->fetchAll();
 
@@ -73,10 +73,23 @@ class UserProduct extends Database
 
     private function hydrate(array $data):self
     {
+        $user = new User();
+        $user->setId($data['userid']);
+        $user->setName($data['name']);
+        $user->setEmail($data['email']);
+        $user->setPassword($data['password']);
+
+        $product = new Product();
+        $product->setId($data['productid']);
+        $product->setTitle($data['title']);
+        $product->setDescription($data['description']);
+        $product->setPrice($data['price']);
+        $product->setImage($data['image']);
+
         $obj = new self();
         $obj->id = $data['id'];
-        $obj->userId = $data['userid'];
-        $obj->productId = $data['productid'];
+        $obj->user = $user;
+        $obj->product = $product;
         $obj->amount = $data['amount'];
 
         return $obj;
@@ -100,24 +113,65 @@ class UserProduct extends Database
     }
 
     /**
-     * @return int
+     * @return User
      */
-    public function getProductId(): int
+    public function getUser(): User
     {
-        return $this->productId;
+        return $this->user;
     }
 
     /**
-     * @return int
+     * @return Product
      */
-    public function getUserId(): int
+    public function getProduct(): Product
     {
-        return $this->userId;
+        return $this->product;
     }
 
-    public function getImage()
+    /**
+     * @param int $id
+     * @return UserProduct
+     */
+    public function setId(int $id): UserProduct
     {
-        return $this->product->getImage();
+        $this->id = $id;
+        return $this;
     }
+
+    /**
+     * @param int $amount
+     * @return UserProduct
+     */
+    public function setAmount(int $amount): UserProduct
+    {
+        $this->amount = $amount;
+        return $this;
+    }
+
+    /**
+     * @param Product $product
+     * @return UserProduct
+     */
+    public function setProduct(Product $product): UserProduct
+    {
+        $this->product = $product;
+        return $this;
+    }
+
+    /**
+     * @param User $user
+     * @return UserProduct
+     */
+    public function setUser(User $user): UserProduct
+    {
+        $this->user = $user;
+        return $this;
+    }
+
+
+
+
+
+
 
 }

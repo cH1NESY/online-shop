@@ -6,50 +6,56 @@ use Model\Database;
 class Order extends Database
 {
     private int $id;
-    private int $userId;
+    private User $user;
     private string $contactName;
     private string $contactNumber;
     private string $address;
     private string $totalPrice;
-    public function createNewOrder($userId, $contactName, $contactNumber, $address, $totalPrice)
+    public function createNewOrder($userId, $contactName, $contactNumber, $address)
     {
 
-        $stmt = $this->pdo->prepare("INSERT INTO orders (userId, contactName, contactNumber, address, totalPrice) 
-        VALUES (:userId, :contactName, :contactNumber, :address, :totalPrice)");
-        $stmt->execute(['userId' => $userId, 'contactName' => $contactName, 'contactNumber' => $contactNumber, 'address' => $address, 'totalPrice' => $totalPrice]);
+        $stmt = $this->pdo->prepare("INSERT INTO orders (userId, contactName, contactNumber, address) 
+        VALUES (:userId, :contactName, :contactNumber, :address)");
+        $stmt->execute(['userId' => $userId, 'contactName' => $contactName, 'contactNumber' => $contactNumber, 'address' => $address]);
     }
 
     public function getOrderIdByUser($userId):self|null
     {
-        $stmt = $this->pdo->prepare("SELECT id FROM orders WHERE userId = :userId");
+        $stmt = $this->pdo->prepare("SELECT * FROM orders WHERE userId = :userId");
         $stmt->execute(['userId' => $userId]);
         $orderIds = $stmt->fetch();
         if (empty($orderIds)) {
             return null;
         }
+        print_r($orderIds);
         return $this->hydrate($orderIds);
     }
 
     private function hydrate(array $data): self
     {
+        $user = new User();
+        $userFromDb = $user->getById($data['userid']);
+
         $obj = new self();
         $obj->id = $data['id'];
-        $obj->userId = $data['userId'];
-        $obj->contactName = $data['contactName'];
-        $obj->contactNumber = $data['contactNumber'];
+        $obj->user = $userFromDb;
+        $obj->contactName = $data['contactname'];
+        $obj->contactNumber = $data['contactnumber'];
         $obj->address = $data['address'];
-        $obj->totalPrice = $data['totalPrice'];
+        //$obj->totalPrice = $data['totalPrice'];
 
         return $obj;
     }
 
     /**
-     * @return int
+     * @return User
      */
-    public function getUserId(): int
+    public function getUser(): User
     {
-        return $this->userId;
+        return $this->user;
     }
+
+
 
     /**
      * @return int
@@ -90,6 +96,67 @@ class Order extends Database
     {
         return $this->totalPrice;
     }
+
+    /**
+     * @param int $id
+     * @return Order
+     */
+    public function setId(int $id): Order
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @param string $totalPrice
+     * @return Order
+     */
+    public function setTotalPrice(string $totalPrice): Order
+    {
+        $this->totalPrice = $totalPrice;
+        return $this;
+    }
+
+    /**
+     * @param string $address
+     * @return Order
+     */
+    public function setAddress(string $address): Order
+    {
+        $this->address = $address;
+        return $this;
+    }
+
+    /**
+     * @param string $contactNumber
+     * @return Order
+     */
+    public function setContactNumber(string $contactNumber): Order
+    {
+        $this->contactNumber = $contactNumber;
+        return $this;
+    }
+
+    /**
+     * @param string $contactName
+     * @return Order
+     */
+    public function setContactName(string $contactName): Order
+    {
+        $this->contactName = $contactName;
+        return $this;
+    }
+
+    /**
+     * @param User $user
+     * @return Order
+     */
+    public function setUser(User $user): Order
+    {
+        $this->user = $user;
+        return $this;
+    }
+
 
 
 }

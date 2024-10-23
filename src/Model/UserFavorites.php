@@ -2,17 +2,19 @@
 
 namespace Model;
 use Model\Database;
+
 class UserFavorites extends Database
 {
     private int $id;
-    private int $userId;
-    private int $productId;
+    private User $user;
+    private Product $product;
     public function getByUserIdAndByProductId(int $userId, int $productId):self|null
     {
 
         $stmt = $this->pdo->prepare('SELECT * FROM user_favorites WHERE userId = :userId AND productId = :productId');
         $stmt->execute(['userId' => $userId, 'productId' => $productId]);
         $res = $stmt->fetch();
+
         if(empty($res))
         {
             return null;
@@ -37,24 +39,35 @@ class UserFavorites extends Database
         $stmt = $this->pdo->prepare("SELECT * FROM user_favorites WHERE userId = :userId");
         $stmt->execute(['userId' => $userId]);
         $products = $stmt->fetchAll();
+
         if(empty($products))
         {
             return null;
         }
+
         foreach ($products as &$product)
         {
             $product = $this->hydrate($product);
+
         }
+
         return $products;
     }
 
+
     private function hydrate(array $data):self
     {
+
+        $user = new User();
+        $userFromDb = $user->getById($data['userid']);
+
+        $product = new Product();
+        $productFromDb = $product->getProductIdsByProductId($data['productid']);
+
         $obj = new self();
         $obj->id = $data['id'];
-        $obj->userId = $data['userId'];
-        $obj->productId = $data['productId'];
-
+        $obj->user= $userFromDb;
+        $obj->product = $productFromDb;
         return $obj;
     }
 
@@ -67,19 +80,60 @@ class UserFavorites extends Database
     }
 
     /**
-     * @return int
+     * @return User
      */
-    public function getProductId(): int
+    public function getUser(): User
     {
-        return $this->productId;
+        return $this->user;
     }
 
     /**
-     * @return int
+     * @return Product
      */
-    public function getUserId(): int
+    public function getProduct(): Product
     {
-        return $this->userId;
+        return $this->product;
     }
+
+
+
+
+
+
+    /**
+     * @param int $id
+     * @return UserFavorites
+     */
+    public function setId(int $id): UserFavorites
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @param Product $product
+     * @return UserFavorites
+     */
+    public function setProduct(Product $product): UserFavorites
+    {
+        $this->product = $product;
+        return $this;
+    }
+
+    /**
+     * @param User $user
+     * @return UserFavorites
+     */
+    public function setUser(User $user): UserFavorites
+    {
+        $this->user = $user;
+        return $this;
+    }
+
+    /**
+     * @param int $productId
+     * @return UserFavorites
+     */
+
 
 }

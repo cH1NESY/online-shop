@@ -53,7 +53,7 @@ class FavoriteController
         $productsInFavorite = $this->userFavorites->getProductsByUserId($user_id);
 
         foreach($productsInFavorite as $productInFavorite){
-            $product = $this->product->getProductsByProductId($productInFavorite->getProductId());
+            $product = $this->product->getProductsByProductId($productInFavorite->getProduct()->getId());
             $products[] = $product;
         }
 

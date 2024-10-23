@@ -90,4 +90,54 @@ class Product extends Database
     {
         return $this->description;
     }
+
+    /**
+     * @param int $id
+     * @return Product
+     */
+    public function setId(int $id): Product
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @param string $image
+     * @return Product
+     */
+    public function setImage(string $image): Product
+    {
+        $this->image = $image;
+        return $this;
+    }
+
+    /**
+     * @param string $title
+     * @return Product
+     */
+    public function setTitle(string $title): Product
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    /**
+     * @param string $description
+     * @return Product
+     */
+    public function setDescription(string $description): Product
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    /**
+     * @param int $price
+     * @return Product
+     */
+    public function setPrice(int $price): Product
+    {
+        $this->price = $price;
+        return $this;
+    }
 }

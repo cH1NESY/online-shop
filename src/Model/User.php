@@ -30,6 +30,19 @@ class User extends Database
 
         return $this->hydrate($data);
     }
+    public function getById(int $id):self|null
+    {
+
+        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        $data = $stmt->fetch();
+        if(empty($data))
+        {
+            return null;
+        }
+
+        return $this->hydrate($data);
+    }
 
 
     private function hydrate(array $data): self
@@ -62,4 +75,45 @@ class User extends Database
     {
         return $this->id;
     }
+
+    /**
+     * @param int $id
+     * @return User
+     */
+    public function setId(int $id): User
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @param string $password
+     * @return User
+     */
+    public function setPassword(string $password): User
+    {
+        $this->password = $password;
+        return $this;
+    }
+
+    /**
+     * @param string $email
+     * @return User
+     */
+    public function setEmail(string $email): User
+    {
+        $this->email = $email;
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     * @return User
+     */
+    public function setName(string $name): User
+    {
+        $this->name = $name;
+        return $this;
+    }
+
 }

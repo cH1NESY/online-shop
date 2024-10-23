@@ -36,8 +36,8 @@
             <?php $totalPrice = 0;?>
             <?php foreach ($res as $r):?>
                 <?php $allPrice = 1;?>
-                <p><a href="#"><?php echo $r['title'] . " Кол-во: " . $r['amount'];?>
-                    </a> <span class="price"><?php $allPrice = $r['price'] * $r['amount'];echo $allPrice . " руб"?></span></p>
+                <p><a href="#"><?php echo $r->getProduct()->getTitle() . " Кол-во: " . $r->getAmount();?>
+                    </a> <span class="price"><?php $allPrice = $r->getProduct()->getPrice() * $r->getAmount();echo $allPrice . " руб"?></span></p>
                 <hr>
             <?php $totalPrice += $allPrice?>
             <?php endforeach;?>
