@@ -21,7 +21,7 @@ class Order extends Database
 
     public function getOrderIdByUser($userId):self|null
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM orders WHERE userId = :userId");
+        $stmt = $this->pdo->prepare("SELECT * FROM orders WHERE userId = :userId ORDER BY id DESC");
         $stmt->execute(['userId' => $userId]);
         $orderIds = $stmt->fetch();
         if (empty($orderIds)) {

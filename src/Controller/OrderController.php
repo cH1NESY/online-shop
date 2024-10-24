@@ -3,6 +3,8 @@ namespace Controller;
 use Model\UserProduct;
 use Model\Order;
 use Model\OrderProduct;
+use Request\OrderRequest;
+
 class OrderController
 {
     private Order $order;
@@ -30,15 +32,15 @@ class OrderController
         require_once "./../View/order.php";
     }
 
-    public function createOrder(){
+    public function createOrder(OrderRequest $request){
         $errors = $this->validateOrder();
         if(empty($errors))
         {
             session_start();
             $userId = $_SESSION['user_id'];
-            $name = $_POST['name'];
-            $address = $_POST["address"];
-            $phoneNumber = $_POST["phoneNumber"];
+            $name = $request->getName();
+            $address = $request->getAddress();
+            $phoneNumber = $request->getPhone();
             $res = $this->userProduct->getProductsByUserId($userId);
 //            $allPrice = 0;
 //            foreach ($res as $r){
@@ -54,56 +56,13 @@ class OrderController
             }
 
             $this->userProduct->deleteProductByUserId($userId);
+
             header('Location: /order');
+
         }else{
             require_once "./../View/order.php";
         }
     }
 
-    private function validateOrder(): array
-    {
-        $errors = [];
 
-        if (isset($_POST['name'])) {
-            $name = ($_POST['name']);
-            if (strlen($name) < 3 || strlen($name) > 20) {
-                $errors['firstName'] = "Имя должно содержать не меньше 3 символов и не больше 20 символов";
-            } elseif (!preg_match("/^[a-zA-Zа-яА-Я]+$/u", $name)) {
-                $errors['firstName'] = "Имя может содержать только буквы";
-            }
-        }else{
-            $errors ['firstName'] = "Поле name должно быть заполнено";
-        }
-
-
-
-        if (isset($_POST['address'])) {
-            $address = ($_POST['address']);
-           if (strlen($address) < 3 || strlen($address) > 100) {
-                $errors['address'] = "Адресс должен содержать не меньше 3 символов и не больше 100 символов";
-           } elseif (!preg_match("/^[a-zA-Zа-яА-Я0-9 ,.-]+$/u", $address)) {
-                $errors['address'] = "Адресс может содержать только буквы и цифры";
-           }
-        }else {
-            $errors ['address'] = "Поле address должно быть заполнено";
-        }
-
-
-
-
-        if (isset($_POST['phoneNumber'])) {
-            $phone = ($_POST['phoneNumber']);
-            if (!preg_match("/^[0-9]+$/u", $phone)) {
-                $errors['phone'] = "Номер телефона может содержать только цифры";
-            } elseif (strlen($phone) < 3 || strlen($phone) > 15) {
-                $errors['phone'] = "Номер телефона должен содержать не меньше 3 символов и не больше 15 символов";
-            }
-        }else {
-            $errors ['phone'] = "Поле phoneNumber должно быть заполнено";
-        }
-
-
-
-        return $errors;
-    }
 }

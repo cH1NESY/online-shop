@@ -3,6 +3,8 @@
 namespace Controller;
 use Model\UserFavorites;
 use Model\Product;
+use Request\AddProductRequest;
+
 class FavoriteController
 {
     private UserFavorites $userFavorites;
@@ -13,12 +15,12 @@ class FavoriteController
         $this->userFavorites = new UserFavorites();
         $this->product = new Product();
     }
-    public function addProduct()
+    public function addProduct(AddProductRequest $request)
     {
         session_start();
         $userId = $_SESSION['user_id'];
 
-            $productId = $_POST['product_id'];
+            $productId = $request->getProductId();
 
             $res = $this->userFavorites->getByUserIdAndByProductId($userId, $productId);
 

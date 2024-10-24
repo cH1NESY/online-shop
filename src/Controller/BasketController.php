@@ -3,6 +3,8 @@
 namespace Controller;
 use Model\UserProduct;
 use Model\Product;
+use Request\AddProductRequest;
+
 class BasketController
 {
 
@@ -19,14 +21,14 @@ class BasketController
         require_once "./../View/addProduct.php";
     }
 
-    public function addProduct()
+    public function addProduct(AddProductRequest $request)
     {
         session_start();
         $userId = $_SESSION['user_id'];
         $errors = $this->validateProduct();
         if (empty($errors)) {
-            $amount = $_POST['amount'];
-            $productId = $_POST['product_id'];
+            $amount = $request->getAmount();
+            $productId = $request->getProductId();
 
             $res = $this->userProduct->getByUserIdAndByProductId($userId, $productId);
             if(empty($res)){

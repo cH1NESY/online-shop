@@ -2,6 +2,8 @@
 
 namespace Controller;
 use Model\User;
+use Request\RegistrateRequest;
+use Request\LoginRequest;
 class UserController
 {
     private User $user;
@@ -14,14 +16,14 @@ class UserController
     {
         require_once "./../View/registrate.php";
     }
-    public function registrate()
+    public function registrate(RegistrateRequest $request)
     {
-        $errors = $this->validateRegistration();
+        $errors = $request->validate();
         if (empty($errors)) {
-            $name = $_POST['name'];
-            $email = $_POST['email'];
-            $pass = $_POST['password'];
-            $repass = $_POST['repassword'];
+            $name = $request->getName();
+            $email = $request->getEmail();
+            $pass = $request->getPassword();
+            $repass = $request->getRepassword();
 
 
             $hash = password_hash($pass, PASSWORD_DEFAULT);
@@ -36,108 +38,17 @@ class UserController
 
     }
 
-    private function validateRegistration()
+
+
+    public function login(LoginRequest $request)
     {
-        $errors = [];
 
-
-
-        if(isset($_POST['name']) ){
-
-            $name = $_POST['name'];
-
-
-            if (empty($name)) {
-                $errors['name'] = "Имя не может быть пустым";
-
-            }
-            if($name < 1){
-
-                $errors['name'] = "Имя должно быть длиннее";
-
-            }
-            for($i = 0; $i < strlen($name); $i++){
-                if (is_numeric($name[$i])) {
-
-                    $errors['name'] = "В имени не должно быть цифр";
-
-                }
-                if ($name[$i] == " ") {
-
-                    $errors['name'] = "В имени не должно быть пробелов";
-                }
-            }
-            if(!preg_match("#^[\w\-]+$#u",$name)){
-
-                $errors['name'] = "В имени не должно быть специальных символов";
-            }
-        }
-        else{
-            $errors['name'] = "Поле name должно быть заполнено";
-        }
-
-
-
-
-        if(isset($_POST['email'])){
-            $email = $_POST['email'];
-            $true_email = filter_var($email, FILTER_VALIDATE_EMAIL);
-            if(!$true_email){
-
-                $errors['email'] = "Неправильный email";
-
-            }
-        }
-        else{
-            $errors['email'] = "Поле email должно быть заполнено";
-        }
-
-
-
-
-
-        if(isset($_POST['password'])){
-            $pass = $_POST['password'];
-            if (empty($pass)) {
-
-                $errors['password'] = "Пароль не может быть пустым";
-
-            }
-        }
-        else{
-            $errors['password'] = "Поле password должно быть заполнено";
-        }
-
-
-
-        if (isset($_POST['repassword'])){
-            $repass = $_POST['repassword'];
-            $pass = $_POST['password'];
-            if ($pass != $repass) {
-
-                $errors['repass'] = "Проверьте пароль";
-
-            }
-            if (empty( $repass)) {
-
-                $errors['repass'] = "Проверьте пароль";
-            }
-        }
-        else{
-            $errors['repass'] = "Повторите пароль";
-        }
-
-        return $errors;
-    }
-
-    public function login(){
-
-        $errors = $this->validateLogin();
+        $errors = $request->validate();
 
         if(empty($errors)) {
 
-            $login = $_POST['login'];
-            $pass = $_POST['password'];
+            $login = $request->getLogin();
+            $pass = $request->getPassword();
 
             $data = $this->user->getByLogin($login);
 
@@ -165,26 +76,6 @@ class UserController
 
     }
 
-    private function validateLogin()
-    {
-        $errors = [];
 
-        if(isset($_POST['login'])){
-            $login = $_POST['login'];
-        }
-        else{
-            $errors['login'] = "Поле email должно быть заполнено";
-        }
-
-
-        if(isset($_POST['password'])){
-            $pass = $_POST['password'];
-        }
-        else{
-            $errors['password'] = "Поле password должно быть заполнено";
-        }
-
-        return $errors;
-    }
 
 }

@@ -6,6 +6,8 @@ use Controller\ProductController;
 use Controller\OrderController;
 use Controller\BasketController;
 use Controller\UserController;
+use Request\Request;
+
 class app
 {
 
@@ -24,7 +26,10 @@ class app
             $controller = new $controllerClass();
 
             if (method_exists($controller, $controllerMethod)) {
-                $controller->$controllerMethod();
+
+                $request = new Request($requestUri,$requestMethod, $_POST);
+
+                $controller->$controllerMethod($request);
             } else {
 
                 http_response_code(404);
