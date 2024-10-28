@@ -1,35 +1,32 @@
 <?php
 
 namespace Controller;
+use DTO\FavoriteDTO;
 use Model\UserFavorites;
 use Model\Product;
-use Request\AddProductRequest;
+use Request\AddProductInBasketRequest;
+use Request\AddProductInFavorite;
+use Service\FavoriteService;
 
 class FavoriteController
 {
     private UserFavorites $userFavorites;
-    private Product $product;
+    private FavoriteService $favoriteService;
 
     public function __construct( )
     {
         $this->userFavorites = new UserFavorites();
-        $this->product = new Product();
+
     }
-    public function addProduct(AddProductRequest $request)
+    public function addProduct(AddProductInFavorite $request)
     {
         session_start();
         $userId = $_SESSION['user_id'];
 
             $productId = $request->getProductId();
 
-            $res = $this->userFavorites->getByUserIdAndByProductId($userId, $productId);
-
-            if(empty($res)){
-                $this->userFavorites->addProductInFavorite($userId, $productId);
-            }else{
-                $this->userFavorites->deleteProduct($userId, $productId);
-            }
-
+            $dto = new FavoriteDTO($userId, $productId);
+            $this->favoriteService->addProduct($dto);
             header('Location: /favorite');
 
 
@@ -47,17 +44,14 @@ class FavoriteController
     public function showProductsInFavorite()
     {
         session_start();
-        $user_id = $_SESSION['user_id'];
+        $userId = $_SESSION['user_id'];
         if(!isset($_SESSION['user_id'])){
             header('Location: /login');
         }
-        $products = [];
-        $productsInFavorite = $this->userFavorites->getProductsByUserId($user_id);
 
-        foreach($productsInFavorite as $productInFavorite){
-            $product = $this->product->getProductsByProductId($productInFavorite->getProduct()->getId());
-            $products[] = $product;
-        }
+
+        $dto = new FavoriteDTO($userId);
+        $this->favoriteService->showProducts($dto);
 
 
         require_once "./../View/favorite.php";

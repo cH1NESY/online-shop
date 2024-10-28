@@ -2,9 +2,9 @@
 
 namespace Request;
 use Model\Product;
-use Model\UserProduct;
 
-class AddProductRequest extends Request
+
+class AddProductInBasketRequest extends Request
 {
     private Product $product;
     public function __construct( )

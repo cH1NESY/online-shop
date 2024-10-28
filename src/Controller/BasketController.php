@@ -3,75 +3,43 @@
 namespace Controller;
 use Model\UserProduct;
 use Model\Product;
-use Request\AddProductRequest;
+use Request\AddProductInBasketRequest;
+use DTO\AddProductDTO;
+use Service\BasketService;
 
 class BasketController
 {
 
+   private BasketService $basketService;
     private UserProduct $userProduct;
-    private Product $product;
-
     public function __construct( )
     {
+        $this->basketService = new BasketService();
         $this->userProduct = new UserProduct();
-        $this->product = new Product();
     }
     public function getAddProductForm()
     {
         require_once "./../View/addProduct.php";
     }
 
-    public function addProduct(AddProductRequest $request)
+    public function addProduct(AddProductInBasketRequest $request)
     {
         session_start();
         $userId = $_SESSION['user_id'];
-        $errors = $this->validateProduct();
+        $errors = $request->validateProduct();
         if (empty($errors)) {
             $amount = $request->getAmount();
             $productId = $request->getProductId();
 
-            $res = $this->userProduct->getByUserIdAndByProductId($userId, $productId);
-            if(empty($res)){
-
-                $this->userProduct->addProductInBasket($userId, $productId, $amount);
-            }else{
-                $amount += $res->getAmount();
-
-                $this->userProduct->updateAmount($userId, $productId, $amount);
-            }
+            $dto = new addProductDTO($userId, $productId, $amount);
+            $this->basketService->addProduct($dto);
             header('Location: /basket');
         }else{
             require_once "./../View/addProduct.php";
         }
     }
 
-    private function validateProduct()
-    {
-        $errors = [];
 
-        if (isset($_POST['product_id'])) {
-            $productId = $_POST['product_id'];
-            $products = $this->product->getProductIdsByProductId($productId);
-
-            if($products === false){
-                $errors['product_id'] = "Нет такого id";
-
-            }
-        } else {
-            $errors['product_id'] = "Поле product_id должно быть заполнено";
-
-        }
-
-        if (isset($_POST['amount'])) {
-            $amount = $_POST['amount'];
-        }
-        else{
-            $errors['amount'] = "Поле amount должно быть заполнено";
-        }
-
-        return $errors;
-
-    }
     public function showProductsInBasket()
     {
         session_start();

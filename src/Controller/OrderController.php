@@ -1,21 +1,20 @@
 <?php
 namespace Controller;
+use DTO\CreateOrderDTO;
 use Model\UserProduct;
 use Model\Order;
 use Model\OrderProduct;
 use Request\OrderRequest;
+use Service\OrderService;
 
 class OrderController
 {
-    private Order $order;
-    private UserProduct $userProduct;
-    private OrderProduct $orderProduct;
+    private OrderService $orderService;
 
     public function __construct()
     {
-        $this->order = new Order();
-        $this->userProduct = new UserProduct();
-        $this->orderProduct = new OrderProduct();
+        $this->orderService = new OrderService();
+
     }
 
     public function showProductsReadyToOrder()
@@ -47,16 +46,17 @@ class OrderController
 //                $totalPrice = $r["price"] * $r["amount"];
 //                $allPrice += $totalPrice;
 //            }
-            $this->order->createNewOrder($userId, $name, $phoneNumber, $address);
-
-            $orderId = $this->order->getOrderIdByUser($userId);
-
-            foreach ($this->userProduct->getProductsByUserId($userId) as $product){
-                $this->orderProduct->addProductInOrder($orderId->getId(), $product->getProduct()->getId(), $product->getAmount(), $product->getProduct()->getPrice());
-            }
-
-            $this->userProduct->deleteProductByUserId($userId);
-
+//            $this->order->createNewOrder($userId, $name, $phoneNumber, $address);
+//
+//            $orderId = $this->order->getOrderIdByUser($userId);
+//
+//            foreach ($this->userProduct->getProductsByUserId($userId) as $product){
+//                $this->orderProduct->addProductInOrder($orderId->getId(), $product->getProduct()->getId(), $product->getAmount(), $product->getProduct()->getPrice());
+//            }
+//
+//            $this->userProduct->deleteProductByUserId($userId);
+            $dto = new CreateOrderDTO($userId, $name, $phoneNumber, $address);
+            $this->orderService->create($dto);
             header('Location: /order');
 
         }else{
