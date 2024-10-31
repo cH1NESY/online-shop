@@ -11,27 +11,27 @@ class Order extends Database
     private string $contactNumber;
     private string $address;
     private string $totalPrice;
-    public function createNewOrder($userId, $contactName, $contactNumber, $address)
+    public static function createNewOrder($userId, $contactName, $contactNumber, $address)
     {
 
-        $stmt = $this->pdo->prepare("INSERT INTO orders (userId, contactName, contactNumber, address) 
+        $stmt = self::$pdo->prepare("INSERT INTO orders (userId, contactName, contactNumber, address) 
         VALUES (:userId, :contactName, :contactNumber, :address)");
         $stmt->execute(['userId' => $userId, 'contactName' => $contactName, 'contactNumber' => $contactNumber, 'address' => $address]);
     }
 
-    public function getOrderIdByUser($userId):self|null
+    public static function getOrderIdByUser($userId):self|null
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM orders WHERE userId = :userId ORDER BY id DESC");
+        $stmt = self::$pdo->prepare("SELECT * FROM orders WHERE userId = :userId ORDER BY id DESC");
         $stmt->execute(['userId' => $userId]);
         $orderIds = $stmt->fetch();
         if (empty($orderIds)) {
             return null;
         }
         print_r($orderIds);
-        return $this->hydrate($orderIds);
+        return self::hydrate($orderIds);
     }
 
-    private function hydrate(array $data): self
+    private static function hydrate(array $data): self
     {
         $user = new User();
         $userFromDb = $user->getById($data['userid']);

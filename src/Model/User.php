@@ -10,17 +10,17 @@ class User extends Database
     private string $email;
     private string $password;
 
-    public function createNewUser(string $name,string $email,string $password)
+    public static function createNewUser(string $name,string $email,string $password)
     {
 
-        $stmt = $this->pdo->prepare("INSERT INTO users (name, email, password) VALUES (:name, :email, :password)");
+        $stmt = self::$pdo->prepare("INSERT INTO users (name, email, password) VALUES (:name, :email, :password)");
         $stmt->execute(['name' => $name, 'email' => $email, 'password' => $password]);
     }
 
-    public function getByLogin(string $login):self|null
+    public static function getByLogin(string $login):self|null
     {
 
-        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE email = :login");
+        $stmt = self::$pdo->prepare("SELECT * FROM users WHERE email = :login");
         $stmt->execute(['login' => $login]);
         $data = $stmt->fetch();
         if(empty($data))
@@ -28,12 +28,12 @@ class User extends Database
             return null;
         }
 
-        return $this->hydrate($data);
+        return self::hydrate($data);
     }
-    public function getById(int $id):self|null
+    public static function getById(int $id):self|null
     {
 
-        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE id = :id");
+        $stmt = self::$pdo->prepare("SELECT * FROM users WHERE id = :id");
         $stmt->execute(['id' => $id]);
         $data = $stmt->fetch();
         if(empty($data))
@@ -41,11 +41,11 @@ class User extends Database
             return null;
         }
 
-        return $this->hydrate($data);
+        return self::hydrate($data);
     }
 
 
-    private function hydrate(array $data): self
+    private static function hydrate(array $data): self
     {
         $obj = new self();
         $obj->id = $data['id'];

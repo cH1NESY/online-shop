@@ -9,9 +9,9 @@ class OrderProduct extends Database
     private Product $product;
     private int $amount;
     private int $price;
-    public function addProductInOrder(int $orderId, int $productId, int $amount, int $price)
+    public static function addProductInOrder(int $orderId, int $productId, int $amount, int $price)
     {
-        $stmt = $this->pdo->prepare("INSERT INTO order_products (orderId, productId, amount, price) 
+        $stmt = self::$pdo->prepare("INSERT INTO order_products (orderId, productId, amount, price) 
             VALUES (:orderId, :productId, :amount, :price)");
         $stmt->execute(['orderId' => $orderId, 'productId' => $productId, 'amount' => $amount, 'price' => $price]);
 

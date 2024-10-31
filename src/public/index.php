@@ -22,8 +22,8 @@ $app = new App();
 $app->addGetRoute('/login', UserController::class, 'getRegistrateForm');
 $app->addPostRoute('/login', UserController::class, 'login', LoginRequest::class);
 
-$app->addGetRoute('/registration', Controller\UserController::class, 'getRegistrateForm');
-$app->addPostRoute('/registration', Controller\UserController::class, 'registrate', RegistrateRequest::class );
+$app->addGetRoute('/registration', UserController::class, 'getRegistrateForm');
+$app->addPostRoute('/registration', UserController::class, 'registrate', RegistrateRequest::class );
 
 $app->addGetRoute('/catalog', ProductController::class, 'showProducts');
 

@@ -13,10 +13,10 @@ class UserProduct extends Database
 
 
 
-    public function getByUserIdAndByProductId(int $userId, int $productId):self|null
+    public static function getByUserIdAndByProductId(int $userId, int $productId):self|null
     {
 
-        $stmt = $this->pdo->prepare('SELECT * FROM user_products WHERE userId = :userId AND productId = :productId');
+        $stmt = self::$pdo->prepare('SELECT * FROM user_products WHERE userId = :userId AND productId = :productId');
         $stmt->execute(['userId' => $userId, 'productId' => $productId]);
         $res = $stmt->fetch();
 
@@ -24,27 +24,27 @@ class UserProduct extends Database
         {
             return null;
         }
-        return $this->hydrate($res);
+        return self::hydrate($res);
     }
 
-    public function addProductInBasket(int $userId,int $productId,int $amount)
+    public static function addProductInBasket(int $userId,int $productId,int $amount)
     {
 
-        $stmt = $this->pdo->prepare("INSERT INTO user_products (userId, productId, amount) VALUES (:userId, :productId, :amount)");
+        $stmt = self::$pdo->prepare("INSERT INTO user_products (userId, productId, amount) VALUES (:userId, :productId, :amount)");
         $stmt->execute(['userId' => $userId, 'productId' => $productId, 'amount' => $amount]);
     }
 
-    public function updateAmount(int $userId,int $productId,int $amount)
+    public static function updateAmount(int $userId,int $productId,int $amount)
     {
 
-        $stmt = $this->pdo->prepare("UPDATE user_products SET amount = :amount WHERE userId = :userId AND productId = :productId");
+        $stmt = self::$pdo->prepare("UPDATE user_products SET amount = :amount WHERE userId = :userId AND productId = :productId");
         $stmt->execute(['userId' => $userId, 'productId' => $productId, 'amount' => $amount]);
     }
 
-    public function getProductsByUserId(int $userId): array|null
+    public static function getProductsByUserId(int $userId): array|null
     {
 
-        $stmt = $this->pdo->prepare("SELECT * FROM user_products 
+        $stmt = self::$pdo->prepare("SELECT * FROM user_products 
                                             JOIN products ON user_products.productId = products.id 
                                             JOIN users ON users.id = user_products.userId
                                             WHERE userId = :userId");
@@ -57,21 +57,21 @@ class UserProduct extends Database
         }
         foreach ($res as &$product)
         {
-            $product = $this->hydrate($product);
+            $product = self::hydrate($product);
         }
 
         return $res;
     }
 
-    public function deleteProductByUserId(int $userId)
+    public static function deleteProductByUserId(int $userId)
     {
 
-        $stmt = $this->pdo->prepare("DELETE FROM user_products WHERE userId = :userId");
+        $stmt = self::$pdo->prepare("DELETE FROM user_products WHERE userId = :userId");
         $stmt->execute(['userId' => $userId]);
 
     }
 
-    private function hydrate(array $data):self
+    private static function hydrate(array $data):self
     {
         $user = new User();
         $user->setId($data['userid']);

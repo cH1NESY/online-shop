@@ -8,10 +8,10 @@ class UserFavorites extends Database
     private int $id;
     private User $user;
     private Product $product;
-    public function getByUserIdAndByProductId(int $userId, int $productId):self|null
+    public static function getByUserIdAndByProductId(int $userId, int $productId):self|null
     {
 
-        $stmt = $this->pdo->prepare('SELECT * FROM user_favorites WHERE userId = :userId AND productId = :productId');
+        $stmt = self::$pdo->prepare('SELECT * FROM user_favorites WHERE userId = :userId AND productId = :productId');
         $stmt->execute(['userId' => $userId, 'productId' => $productId]);
         $res = $stmt->fetch();
 
@@ -19,24 +19,24 @@ class UserFavorites extends Database
         {
             return null;
         }
-        return $this->hydrate($res);
+        return self::hydrate($res);
     }
 
-    public function addProductInFavorite(int $userId, int $productId){
+    public static function addProductInFavorite(int $userId, int $productId){
 
-        $stmt = $this->pdo->prepare('INSERT INTO user_favorites (userId, productId) VALUES (:userId, :productId)');
+        $stmt = self::$pdo->prepare('INSERT INTO user_favorites (userId, productId) VALUES (:userId, :productId)');
         $stmt->execute(['userId' => $userId, 'productId' => $productId]);
     }
 
-    public function deleteProduct(int $userId, int $productId){
+    public static function deleteProduct(int $userId, int $productId){
 
-        $stmt = $this->pdo->prepare('DELETE FROM user_favorites WHERE userId = :userId AND productId = :productId');
+        $stmt = self::$pdo->prepare('DELETE FROM user_favorites WHERE userId = :userId AND productId = :productId');
         $stmt->execute(['userId' => $userId, 'productId' => $productId]);
     }
-    public function getProductsByUserId(int $userId): array|null
+    public static function getProductsByUserId(int $userId): array|null
     {
 
-        $stmt = $this->pdo->prepare("SELECT * FROM user_favorites WHERE userId = :userId");
+        $stmt = self::$pdo->prepare("SELECT * FROM user_favorites WHERE userId = :userId");
         $stmt->execute(['userId' => $userId]);
         $products = $stmt->fetchAll();
 
@@ -47,7 +47,7 @@ class UserFavorites extends Database
 
         foreach ($products as &$product)
         {
-            $product = $this->hydrate($product);
+            $product = self::hydrate($product);
 
         }
 
@@ -55,7 +55,7 @@ class UserFavorites extends Database
     }
 
 
-    private function hydrate(array $data):self
+    private static function hydrate(array $data):self
     {
 
         $user = new User();

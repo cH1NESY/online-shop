@@ -10,46 +10,46 @@ class Product extends Database
     private int $price;
     private string $image;
 
-    public function getProducts(): array|null
+    public static function getProducts(): array|null
     {
 
-        $stmt = $this->pdo->prepare("SELECT *  FROM products");
+        $stmt = self::$pdo->prepare("SELECT *  FROM products");
         $stmt->execute();
         $products = $stmt->fetchAll();
         if(empty($products)){
             return null;
         }
         foreach ($products as &$product) {
-            $product = $this->hydrate($product);
+            $product = self::hydrate($product);
         }
 
         return $products;
     }
 
-    public function getProductIdsByProductId(int $productId): self |null
+    public static function getProductIdsByProductId(int $productId): self |null
     {
 
-        $stmt = $this->pdo->prepare('SELECT * FROM products WHERE id = :productId');
+        $stmt = self::$pdo->prepare('SELECT * FROM products WHERE id = :productId');
         $stmt->execute(['productId' => $productId]);
         $products = $stmt->fetch();
         if(empty($products)){
             return null;
         }
-        return $this->hydrate($products);
+        return self::hydrate($products);
     }
-    public function getProductsByProductId(int $productId): self|null
+    public static function getProductsByProductId(int $productId): self|null
     {
 
-        $stmt = $this->pdo->prepare('SELECT * FROM products WHERE id = :productId');
+        $stmt = self::$pdo->prepare('SELECT * FROM products WHERE id = :productId');
         $stmt->execute(['productId' => $productId]);
         $products = $stmt->fetch();
         if(empty($products)){
             return null;
         }
-        return $this->hydrate($products);
+        return self::hydrate($products);
     }
 
-    private function hydrate(array $data): self
+    private static function hydrate(array $data): self
     {
         $obj = new self();
         $obj->id = $data['id'];
