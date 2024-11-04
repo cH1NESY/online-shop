@@ -11,7 +11,7 @@ class UserFavorites extends Database
     public static function getByUserIdAndByProductId(int $userId, int $productId):self|null
     {
 
-        $stmt = self::$pdo->prepare('SELECT * FROM user_favorites WHERE userId = :userId AND productId = :productId');
+        $stmt = self::getPDO()->prepare('SELECT * FROM user_favorites WHERE userId = :userId AND productId = :productId');
         $stmt->execute(['userId' => $userId, 'productId' => $productId]);
         $res = $stmt->fetch();
 
@@ -24,19 +24,19 @@ class UserFavorites extends Database
 
     public static function addProductInFavorite(int $userId, int $productId){
 
-        $stmt = self::$pdo->prepare('INSERT INTO user_favorites (userId, productId) VALUES (:userId, :productId)');
+        $stmt = self::getPDO()->prepare('INSERT INTO user_favorites (userId, productId) VALUES (:userId, :productId)');
         $stmt->execute(['userId' => $userId, 'productId' => $productId]);
     }
 
     public static function deleteProduct(int $userId, int $productId){
 
-        $stmt = self::$pdo->prepare('DELETE FROM user_favorites WHERE userId = :userId AND productId = :productId');
+        $stmt = self::getPDO()->prepare('DELETE FROM user_favorites WHERE userId = :userId AND productId = :productId');
         $stmt->execute(['userId' => $userId, 'productId' => $productId]);
     }
     public static function getProductsByUserId(int $userId): array|null
     {
 
-        $stmt = self::$pdo->prepare("SELECT * FROM user_favorites WHERE userId = :userId");
+        $stmt = self::getPDO()->prepare("SELECT * FROM user_favorites WHERE userId = :userId");
         $stmt->execute(['userId' => $userId]);
         $products = $stmt->fetchAll();
 

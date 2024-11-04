@@ -16,28 +16,36 @@ use Controller\BasketController;
 use Controller\ProductController;
 use Controller\FavoriteController;
 
-Autoload::registrate("/var/www/html/src/");
-$app = new App();
+try {
 
-$app->addGetRoute('/login', UserController::class, 'getRegistrateForm');
-$app->addPostRoute('/login', UserController::class, 'login', LoginRequest::class);
 
-$app->addGetRoute('/registration', UserController::class, 'getRegistrateForm');
-$app->addPostRoute('/registration', UserController::class, 'registrate', RegistrateRequest::class );
+    Autoload::registrate("/var/www/html/src/");
+    $app = new App();
 
-$app->addGetRoute('/catalog', ProductController::class, 'showProducts');
+    $app->addGetRoute('/login', UserController::class, 'getRegistrateForm');
+    $app->addPostRoute('/login', UserController::class, 'login', LoginRequest::class);
 
-$app->addGetRoute('/add_product', BasketController::class, 'getAddProductForm');
-$app->addPostRoute('/add_product', BasketController::class, 'addProduct', AddProductInBasketRequest::class );
+    $app->addGetRoute('/registration', UserController::class, 'getRegistrateForm');
+    $app->addPostRoute('/registration', UserController::class, 'registrate', RegistrateRequest::class );
 
-$app->addGetRoute('/basket', BasketController::class, 'showProductsInBasket');
+    $app->addGetRoute('/catalog', ProductController::class, 'showProducts');
 
-$app->addGetRoute('/order', OrderController::class, 'showProductsReadyToOrder');
-$app->addPostRoute('/order', OrderController::class, 'createOrder', OrderRequest::class );
+    $app->addGetRoute('/add_product', BasketController::class, 'getAddProductForm');
+    $app->addPostRoute('/add_product', BasketController::class, 'addProduct', AddProductInBasketRequest::class );
 
-$app->addPostRoute('/add_favorite', FavoriteController::class, 'addProduct', AddProductInFavorite::class );
+    $app->addGetRoute('/basket', BasketController::class, 'showProductsInBasket');
 
-$app->addGetRoute('/favorite', FavoriteController::class, 'showProductsInFavorite');
-$app->addPostRoute('/favorite', FavoriteController::class, 'deleteProduct', AddProductInFavorite::class );
+    $app->addGetRoute('/order', OrderController::class, 'showProductsReadyToOrder');
+    $app->addPostRoute('/order', OrderController::class, 'createOrder', OrderRequest::class );
 
-$app->run();
+    $app->addPostRoute('/add_favorite', FavoriteController::class, 'addProduct', AddProductInFavorite::class );
+
+    $app->addGetRoute('/favorite', FavoriteController::class, 'showProductsInFavorite');
+    $app->addPostRoute('/favorite', FavoriteController::class, 'deleteProduct', AddProductInFavorite::class );
+
+    $app->run();
+}
+catch (\Throwable $throwable)
+{
+    $throwable->getMessage();
+}

@@ -6,15 +6,10 @@ use Model\Product;
 
 class AddProductInBasketRequest extends Request
 {
-    private Product $product;
-    public function __construct( )
-    {
 
-        $this->product = new Product();
-    }
     public function getProductId():?string
     {
-        return $this->data['productId'] ?? null;
+        return $this->data['product_id'] ?? null;
     }
 
     public function getAmount():?string
@@ -25,19 +20,15 @@ class AddProductInBasketRequest extends Request
     public function validateProduct()
     {
         $errors = [];
-
-        if (isset($this->data['productId'])) {
-            $productId = $this->data['productId'];
-            $products = $this->product->getProductIdsByProductId($productId);
-
-            if($products === false){
-                $errors['product_id'] = "Нет такого id";
-
-            }
-        } else {
-            $errors['product_id'] = "Поле product_id должно быть заполнено";
-
+        $productId = $this->data['product_id'];
+        $products = Product::getProductIdsByProductId($productId);
+        $correctId = $products->getId();
+        if(empty($productId)) {
+            $errors['product_id'] = "id пустой";
+        }elseif (empty($correctId)) {
+            $errors['product_id'] = "Нет такого id";
         }
+
 
         if (!isset($this->data['amount'])) {
             $errors['amount'] = "Поле amount должно быть заполнено";

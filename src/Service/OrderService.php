@@ -6,31 +6,32 @@ use Model\UserProduct;
 use Model\Order;
 use Model\OrderProduct;
 use Request\OrderRequest;
+use Model\Database;
 
 
 
 class OrderService
 {
-    private Order $order;
-    private UserProduct $userProduct;
-    private OrderProduct $orderProduct;
 
-    public function __construct( Order $order, UserProduct $userProduct, OrderProduct $orderProduct)
-    {
-        $this->order = $order;
-        $this->userProduct = $userProduct;
-        $this->orderProduct = $orderProduct;
-    }
     public function create(CreateOrderDTO $OrderDTO)
     {
-        $this->order->createNewOrder($OrderDTO->getUserId(), $OrderDTO->getName(), $OrderDTO->getPhoneNumber(), $OrderDTO->getAddress());
+        Database::getPDO()->beginTransaction();
+        try {
 
-        $orderId = $this->order->getOrderIdByUser($OrderDTO->getUserId());
 
-        foreach ($this->userProduct->getProductsByUserId($OrderDTO->getUserId()) as $product){
-            $this->orderProduct->addProductInOrder($orderId->getId(), $product->getProduct()->getId(), $product->getAmount(), $product->getProduct()->getPrice());
+            Order::createNewOrder($OrderDTO->getUserId(), $OrderDTO->getName(), $OrderDTO->getPhoneNumber(), $OrderDTO->getAddress());
+
+            $orderId = Order::getOrderIdByUser($OrderDTO->getUserId());
+
+            foreach (UserProduct::getProductsByUserId($OrderDTO->getUserId()) as $product) {
+                OrderProduct::addProductInOrder($orderId->getId(), $product->getProduct()->getId(), $product->getAmount(), $product->getProduct()->getPrice());
+            }
+
+            UserProduct::deleteProductByUserId($OrderDTO->getUserId());
+        } catch (\PDOException $e) {
+            Database::getPDO()->rollBack();
+            throw $e;
         }
-
-        $this->userProduct->deleteProductByUserId($OrderDTO->getUserId());
+        Database::getPDO()->commit();
     }
 }

@@ -10,18 +10,18 @@ class Order extends Database
     private string $contactName;
     private string $contactNumber;
     private string $address;
-    private string $totalPrice;
+    private int $totalPrice;
     public static function createNewOrder($userId, $contactName, $contactNumber, $address)
     {
 
-        $stmt = self::$pdo->prepare("INSERT INTO orders (userId, contactName, contactNumber, address) 
+        $stmt = self::getPDO()->prepare("INSERT INTO orders (userId, contactName, contactNumber, address) 
         VALUES (:userId, :contactName, :contactNumber, :address)");
         $stmt->execute(['userId' => $userId, 'contactName' => $contactName, 'contactNumber' => $contactNumber, 'address' => $address]);
     }
 
     public static function getOrderIdByUser($userId):self|null
     {
-        $stmt = self::$pdo->prepare("SELECT * FROM orders WHERE userId = :userId ORDER BY id DESC");
+        $stmt = self::getPDO()->prepare("SELECT * FROM orders WHERE userId = :userId ORDER BY id DESC");
         $stmt->execute(['userId' => $userId]);
         $orderIds = $stmt->fetch();
         if (empty($orderIds)) {

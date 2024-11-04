@@ -16,6 +16,7 @@ class FavoriteController
     public function __construct( )
     {
         $this->userFavorites = new UserFavorites();
+        $this->favoriteService = new FavoriteService();
 
     }
     public function addProduct(AddProductInFavorite $request)
@@ -51,7 +52,7 @@ class FavoriteController
 
 
         $dto = new FavoriteDTO($userId);
-        $this->favoriteService->showProducts($dto);
+        $products = $this->favoriteService->showProducts($dto);
 
 
         require_once "./../View/favorite.php";

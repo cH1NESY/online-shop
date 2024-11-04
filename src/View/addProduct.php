@@ -17,7 +17,7 @@
                 <div class="title">Добавить в корзину</div>
                 <form action="/add_product" method="post">
                     <div class="input-boxes">
-                        <label style="color: #a647ff" ><?php if(!empty($errors) && !empty($errors['product_id'])){ print_r($errors['product_id']) ;}?>  </label>
+
                         <div class="input-box">
                             <i class="fas fa-user"></i>
                             <input type="text" name="product_id" placeholder="Enter product_id" required>

@@ -26,13 +26,13 @@ class OrderController
             header('Location: /login');
         }
 
-        $res = $this->userProduct->getProductsByUserId($user_id);
+        $res = UserProduct::getProductsByUserId($user_id);
 
         require_once "./../View/order.php";
     }
 
     public function createOrder(OrderRequest $request){
-        $errors = $this->validateOrder();
+        $errors = $request->validateOrder();
         if(empty($errors))
         {
             session_start();
@@ -40,7 +40,7 @@ class OrderController
             $name = $request->getName();
             $address = $request->getAddress();
             $phoneNumber = $request->getPhone();
-            $res = $this->userProduct->getProductsByUserId($userId);
+            $res = UserProduct::getProductsByUserId($userId);
 //            $allPrice = 0;
 //            foreach ($res as $r){
 //                $totalPrice = $r["price"] * $r["amount"];

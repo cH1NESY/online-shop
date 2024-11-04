@@ -18,7 +18,7 @@ class RegistrateRequest extends Request
     }
     public function getRePassword():?string
     {
-        return $this->data['repass'] ?? null;
+        return $this->data['repassword'] ?? null;
     }
 
 
@@ -96,21 +96,21 @@ class RegistrateRequest extends Request
 
 
 
-        if (isset($this->data['repass'])){
-            $repass = $this->data['repass'];
+        if (isset($this->data['repassword'])){
+            $repass = $this->data['repassword'];
             $pass = $this->data['password'];
             if ($pass != $repass) {
 
-                $errors['repass'] = "Проверьте пароль";
+                $errors['repassword'] = "Проверьте пароль";
 
             }
             if (empty( $repass)) {
 
-                $errors['repass'] = "Проверьте пароль";
+                $errors['repassword'] = "Проверьте пароль";
             }
         }
         else{
-            $errors['repass'] = "Повторите пароль";
+            $errors['repassword'] = "Повторите пароль";
         }
 
         return $errors;

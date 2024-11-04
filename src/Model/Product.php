@@ -13,7 +13,7 @@ class Product extends Database
     public static function getProducts(): array|null
     {
 
-        $stmt = self::$pdo->prepare("SELECT *  FROM products");
+        $stmt = self::getPDO()->prepare("SELECT *  FROM products");
         $stmt->execute();
         $products = $stmt->fetchAll();
         if(empty($products)){
@@ -29,7 +29,7 @@ class Product extends Database
     public static function getProductIdsByProductId(int $productId): self |null
     {
 
-        $stmt = self::$pdo->prepare('SELECT * FROM products WHERE id = :productId');
+        $stmt = self::getPDO()->prepare('SELECT * FROM products WHERE id = :productId');
         $stmt->execute(['productId' => $productId]);
         $products = $stmt->fetch();
         if(empty($products)){
@@ -40,7 +40,7 @@ class Product extends Database
     public static function getProductsByProductId(int $productId): self|null
     {
 
-        $stmt = self::$pdo->prepare('SELECT * FROM products WHERE id = :productId');
+        $stmt = self::getPDO()->prepare('SELECT * FROM products WHERE id = :productId');
         $stmt->execute(['productId' => $productId]);
         $products = $stmt->fetch();
         if(empty($products)){

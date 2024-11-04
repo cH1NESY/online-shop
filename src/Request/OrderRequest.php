@@ -18,7 +18,7 @@ class OrderRequest extends Request
     }
 
 
-    private function validateOrder(): array
+    public function validateOrder(): array
     {
         $errors = [];
 

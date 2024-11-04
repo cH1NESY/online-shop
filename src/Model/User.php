@@ -13,14 +13,14 @@ class User extends Database
     public static function createNewUser(string $name,string $email,string $password)
     {
 
-        $stmt = self::$pdo->prepare("INSERT INTO users (name, email, password) VALUES (:name, :email, :password)");
+        $stmt = self::getPDO()->prepare("INSERT INTO users (name, email, password) VALUES (:name, :email, :password)");
         $stmt->execute(['name' => $name, 'email' => $email, 'password' => $password]);
     }
 
     public static function getByLogin(string $login):self|null
     {
 
-        $stmt = self::$pdo->prepare("SELECT * FROM users WHERE email = :login");
+        $stmt = self::getPDO()->prepare("SELECT * FROM users WHERE email = :login");
         $stmt->execute(['login' => $login]);
         $data = $stmt->fetch();
         if(empty($data))
@@ -33,7 +33,7 @@ class User extends Database
     public static function getById(int $id):self|null
     {
 
-        $stmt = self::$pdo->prepare("SELECT * FROM users WHERE id = :id");
+        $stmt = self::getPDO()->prepare("SELECT * FROM users WHERE id = :id");
         $stmt->execute(['id' => $id]);
         $data = $stmt->fetch();
         if(empty($data))
