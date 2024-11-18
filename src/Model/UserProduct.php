@@ -45,7 +45,7 @@ class UserProduct extends Database
     {
 
         $stmt = self::getPDO()->prepare("SELECT * FROM user_products 
-                                            JOIN products ON user_products.productId = products.id 
+                                            JOIN products ON products.id = user_products.productId 
                                             JOIN users ON users.id = user_products.userId
                                             WHERE userId = :userId");
         $stmt->execute(['userId' => $userId]);

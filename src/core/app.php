@@ -32,13 +32,28 @@ class app
                 $requestClass = $route[$requestMethod]['request'];
 
                 $class = new $controllerClassName();
-                if(empty($requestClass)) {
-                    return $class->$method();
-                }else{
-                    $request = new $requestClass($requestUri, $requestMethod, $_POST);
-                    return $class->$method($request);
-                }
+                try {
 
+
+                    if(empty($requestClass)) {
+                        return $class->$method();
+                    }else{
+                        $request = new $requestClass($requestUri, $requestMethod, $_POST);
+                        return $class->$method($request);
+                    }
+                }catch (\Throwable $exception){
+                    $message = $exception->getMessage();
+                    $file = $exception->getFile();
+                    $line = $exception->getLine();
+
+
+                    $log = date('Y-m-d H:i:s') . $message . PHP_EOL . $file . PHP_EOL . $line . PHP_EOL;
+                    file_put_contents(__DIR__ . '/log.txt', $log . PHP_EOL, FILE_APPEND);
+
+
+                    http_response_code(500);
+                    require_once "./../View/404.php";
+                }
             } else {
                 echo "$requestMethod не поддерживается для $requestUri";
             }

@@ -40,7 +40,7 @@ class OrderRequest extends Request
             if (strlen($address) < 3 || strlen($address) > 100) {
                 $errors['address'] = "Адресс должен содержать не меньше 3 символов и не больше 100 символов";
             } elseif (!preg_match("/^[a-zA-Zа-яА-Я0-9 ,.-]+$/u", $address)) {
-                $errors['address'] = "Адресс может содержать только буквы и цифры";
+                $errors['address'] = "Адрес может содержать только буквы и цифры";
             }
         }else {
             $errors ['address'] = "Поле address должно быть заполнено";

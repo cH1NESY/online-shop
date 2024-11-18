@@ -60,6 +60,9 @@ class OrderController
             header('Location: /order');
 
         }else{
+            session_start();
+            $userId = $_SESSION['user_id'];
+            $res = UserProduct::getProductsByUserId($userId);
             require_once "./../View/order.php";
         }
     }

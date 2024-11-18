@@ -27,7 +27,7 @@ class Order extends Database
         if (empty($orderIds)) {
             return null;
         }
-        print_r($orderIds);
+
         return self::hydrate($orderIds);
     }
 
