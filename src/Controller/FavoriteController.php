@@ -6,6 +6,7 @@ use Model\UserFavorites;
 use Model\Product;
 use Request\AddProductInBasketRequest;
 use Request\AddProductInFavorite;
+use Service\AuthService;
 use Service\FavoriteService;
 
 class FavoriteController
@@ -13,16 +14,19 @@ class FavoriteController
     private UserFavorites $userFavorites;
     private FavoriteService $favoriteService;
 
+    private AuthService $authService;
+
     public function __construct( )
     {
         $this->userFavorites = new UserFavorites();
         $this->favoriteService = new FavoriteService();
+        $this->authService = new AuthService();
 
     }
     public function addProduct(AddProductInFavorite $request)
     {
-        session_start();
-        $userId = $_SESSION['user_id'];
+
+        $userId =  $this->authService->getCurrentUser()->getId();
 
             $productId = $request->getProductId();
 
@@ -33,19 +37,19 @@ class FavoriteController
 
     }
 
-    public function deleteProduct()
+    public function deleteProduct(AddProductInFavorite $request)
     {
-        session_start();
-        $userId = $_SESSION['user_id'];
-        $productId = $_POST['product_id'];
+
+        $userId = $this->authService->getCurrentUser()->getId();
+        $productId = $request->getProductId();
         $this->userFavorites->deleteProduct($userId, $productId);
         header('Location: /catalog');
     }
 
     public function showProductsInFavorite()
     {
-        session_start();
-        $userId = $_SESSION['user_id'];
+
+        $userId = $this->authService->getCurrentUser()->getId();
         if(!isset($_SESSION['user_id'])){
             header('Location: /login');
         }

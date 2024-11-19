@@ -5,6 +5,7 @@ use Model\UserProduct;
 use Model\Product;
 use Request\AddProductInBasketRequest;
 use DTO\AddProductDTO;
+use Service\AuthService;
 use Service\BasketService;
 
 class BasketController
@@ -12,10 +13,12 @@ class BasketController
 
    private BasketService $basketService;
     private UserProduct $userProduct;
+    private AuthService $authService;
     public function __construct( )
     {
         $this->basketService = new BasketService();
         $this->userProduct = new UserProduct();
+        $this->authService = new AuthService();
     }
     public function getAddProductForm()
     {
@@ -24,8 +27,8 @@ class BasketController
 
     public function addProduct(AddProductInBasketRequest $request)
     {
-        session_start();
-        $userId = $_SESSION['user_id'];
+
+        $userId =  $this->authService->getCurrentUser()->getId();
         $errors = $request->validateProduct();
         if (empty($errors)) {
             $amount = $request->getAmount();
@@ -42,8 +45,8 @@ class BasketController
 
     public function showProductsInBasket()
     {
-        session_start();
-        $user_id = $_SESSION['user_id'];
+
+        $user_id =  $this->authService->getCurrentUser()->getId();
 
         if(!isset($_SESSION['user_id'])){
             header('Location: /login');

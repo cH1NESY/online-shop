@@ -1,0 +1,1 @@
+Call to a member function getId() on null/var/www/html/src/Service/AuthService.php54

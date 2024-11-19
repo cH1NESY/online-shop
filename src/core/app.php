@@ -12,11 +12,19 @@ use Request\RegistrateRequest;
 use Request\OrderRequest;
 use Request\AddProductInFavorite;
 use Request\AddProductInBasketRequest;
+use Service\LogerService;
+
 class app
 {
 
 
     private array $routes = [];
+    private LogerService $loger;
+
+    public function __construct()
+    {
+        $this->loger = new LogerService();
+    }
 
     public function run()
     {
@@ -42,17 +50,12 @@ class app
                         return $class->$method($request);
                     }
                 }catch (\Throwable $exception){
-                    $message = $exception->getMessage();
-                    $file = $exception->getFile();
-                    $line = $exception->getLine();
 
-
-                    $log = date('Y-m-d H:i:s') . $message . PHP_EOL . $file . PHP_EOL . $line . PHP_EOL;
-                    file_put_contents(__DIR__ . '/log.txt', $log . PHP_EOL, FILE_APPEND);
+                    $this->loger->errors([$exception->getMessage(), $exception->getFile(), $exception->getLine()]);
 
 
                     http_response_code(500);
-                    require_once "./../View/404.php";
+                    require_once "./../View/500.php";
                 }
             } else {
                 echo "$requestMethod не поддерживается для $requestUri";

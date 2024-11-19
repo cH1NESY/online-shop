@@ -5,28 +5,29 @@ use Model\UserProduct;
 use Model\Order;
 use Model\OrderProduct;
 use Request\OrderRequest;
+use Service\AuthService;
 use Service\OrderService;
 
 class OrderController
 {
     private OrderService $orderService;
-
+    private AuthService $authService;
     public function __construct()
     {
         $this->orderService = new OrderService();
-
+        $this->authService = new AuthService();
     }
 
     public function showProductsReadyToOrder()
     {
-        session_start();
-        $user_id = $_SESSION['user_id'];
 
-        if(!isset($_SESSION['user_id'])){
+        $userId = $this->authService->getCurrentUser()->getId();
+
+        if(!$this->authService->check()){
             header('Location: /login');
         }
 
-        $res = UserProduct::getProductsByUserId($user_id);
+        $res = UserProduct::getProductsByUserId($userId);
 
         require_once "./../View/order.php";
     }
@@ -35,8 +36,8 @@ class OrderController
         $errors = $request->validateOrder();
         if(empty($errors))
         {
-            session_start();
-            $userId = $_SESSION['user_id'];
+
+            $userId = $this->authService->getCurrentUser()->getId();
             $name = $request->getName();
             $address = $request->getAddress();
             $phoneNumber = $request->getPhone();
@@ -60,8 +61,8 @@ class OrderController
             header('Location: /order');
 
         }else{
-            session_start();
-            $userId = $_SESSION['user_id'];
+
+            $userId = $this->authService->getCurrentUser()->getId();
             $res = UserProduct::getProductsByUserId($userId);
             require_once "./../View/order.php";
         }
