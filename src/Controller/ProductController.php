@@ -1,16 +1,16 @@
 <?php
 namespace Controller;
 use Model\Product;
-use Service\AuthService;
+use Service\Auth\AuthServiceInterface;
 
 class ProductController
 {
     private Product $product;
-    private AuthService $authService;
-    public function __construct()
+    private AuthServiceInterface $authService;
+    public function __construct( Product $product, AuthServiceInterface $authService)
     {
-        $this->product = new Product();
-        $this->authService = new AuthService();
+        $this->product = $product;
+        $this->authService = $authService;
     }
     public function showProducts()
     {

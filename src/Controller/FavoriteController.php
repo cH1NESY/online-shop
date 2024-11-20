@@ -3,10 +3,9 @@
 namespace Controller;
 use DTO\FavoriteDTO;
 use Model\UserFavorites;
-use Model\Product;
-use Request\AddProductInBasketRequest;
 use Request\AddProductInFavorite;
-use Service\AuthService;
+use Service\Auth\AuthServiceInterface;
+
 use Service\FavoriteService;
 
 class FavoriteController
@@ -14,13 +13,13 @@ class FavoriteController
     private UserFavorites $userFavorites;
     private FavoriteService $favoriteService;
 
-    private AuthService $authService;
+    private AuthServiceInterface $authService;
 
-    public function __construct( )
+    public function __construct( UserFavorites $userFavorites, FavoriteService $favoriteService, AuthServiceInterface $authService )
     {
-        $this->userFavorites = new UserFavorites();
-        $this->favoriteService = new FavoriteService();
-        $this->authService = new AuthService();
+        $this->userFavorites = $userFavorites;
+        $this->favoriteService = $favoriteService;
+        $this->authService = $authService;
 
     }
     public function addProduct(AddProductInFavorite $request)

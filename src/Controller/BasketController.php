@@ -1,11 +1,11 @@
 <?php
 
 namespace Controller;
-use Model\UserProduct;
-use Model\Product;
-use Request\AddProductInBasketRequest;
 use DTO\AddProductDTO;
-use Service\AuthService;
+use Model\UserProduct;
+use Request\AddProductInBasketRequest;
+use Service\Auth\AuthServiceInterface;
+
 use Service\BasketService;
 
 class BasketController
@@ -13,12 +13,12 @@ class BasketController
 
    private BasketService $basketService;
     private UserProduct $userProduct;
-    private AuthService $authService;
-    public function __construct( )
+    private AuthServiceInterface $authService;
+    public function __construct( BasketService $basketService, UserProduct $userProduct, AuthServiceInterface $authService )
     {
-        $this->basketService = new BasketService();
-        $this->userProduct = new UserProduct();
-        $this->authService = new AuthService();
+        $this->basketService = $basketService;
+        $this->userProduct = $userProduct;
+        $this->authService = $authService;
     }
     public function getAddProductForm()
     {

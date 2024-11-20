@@ -1,1 +1,9 @@
-Call to a member function getId() on null/var/www/html/src/Service/AuthService.php54
+Call to a member function getId() on null/var/www/html/src/Service/AuthService.php54SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "products" does not exist
+LINE 1: SELECT *  FROM products
+                       ^/var/www/html/src/Model/Product.php17Call to a member function getId() on null/var/www/html/src/Controller/FavoriteController.php52SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "products" does not exist
+LINE 1: SELECT *  FROM products
+                       ^/var/www/html/src/Model/Product.php17Call to a member function getId() on null/var/www/html/src/Controller/FavoriteController.php52SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "products" does not exist
+LINE 1: SELECT *  FROM products
+                       ^/var/www/html/src/Model/Product.php17SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "users" does not exist
+LINE 1: SELECT * FROM users WHERE email = $1
+                      ^/var/www/html/src/Model/User.php24

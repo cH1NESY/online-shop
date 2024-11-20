@@ -1,26 +1,26 @@
 <?php
 
 require_once "./../core/Autoload.php";
+
+use Controller\BasketController;
+use Controller\FavoriteController;
+use Controller\OrderController;
+use Controller\ProductController;
+use Controller\UserController;
 use core\app;
 use core\Autoload;
-
 use Request\AddProductInBasketRequest;
-use Request\OrderRequest;
-use Request\LoginRequest;
-use Request\RegistrateRequest;
 use Request\AddProductInFavorite;
+use Request\LoginRequest;
+use Request\OrderRequest;
+use Request\RegistrateRequest;
 
-use Controller\UserController;
-use Controller\OrderController;
-use Controller\BasketController;
-use Controller\ProductController;
-use Controller\FavoriteController;
-
+$logger = new \Service\Logger\LoggerFileService();
 try {
 
 
     Autoload::registrate("/var/www/html/src/");
-    $app = new App();
+    $app = new App($logger);
 
     $app->addGetRoute('/login', UserController::class, 'getRegistrateForm');
     $app->addPostRoute('/login', UserController::class, 'login', LoginRequest::class);

@@ -1,8 +1,9 @@
 <?php
 
-namespace Service;
+namespace Service\Auth;
 use Model\User;
-class AuthService
+
+class AuthSessionService implements AuthServiceInterface
 {
     private User $user;
 
@@ -51,7 +52,7 @@ class AuthService
 
             if(password_verify($password, $passDb))
             {
-                session_start();
+                $this->sessionStart();
                 $_SESSION['user_id'] = $data->getId();
                 return true;
             }

@@ -2,28 +2,18 @@
 
 
 namespace core;
-use Controller\ProductController;
-use Controller\OrderController;
-use Controller\BasketController;
-use Controller\UserController;
-use Request\Request;
-use Request\LoginRequest;
-use Request\RegistrateRequest;
-use Request\OrderRequest;
-use Request\AddProductInFavorite;
-use Request\AddProductInBasketRequest;
-use Service\LogerService;
+use Service\Logger\LoggerServiceInterface;
 
 class app
 {
 
 
     private array $routes = [];
-    private LogerService $loger;
+    private LoggerServiceInterface $logger;
 
-    public function __construct()
+    public function __construct(LoggerServiceInterface $logger)
     {
-        $this->loger = new LogerService();
+        $this->logger = $logger;
     }
 
     public function run()
@@ -51,7 +41,10 @@ class app
                     }
                 }catch (\Throwable $exception){
 
-                    $this->loger->errors([$exception->getMessage(), $exception->getFile(), $exception->getLine()]);
+                    $this->logger->errors( "Произошла ошибка при обработке",
+                        ['message' => $exception->getMessage(),
+                        'file' => $exception->getFile(),
+                        'line' => $exception->getLine()]);
 
 
                     http_response_code(500);

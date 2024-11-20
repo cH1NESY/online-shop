@@ -2,18 +2,18 @@
 
 namespace Controller;
 use Model\User;
-use Request\RegistrateRequest;
 use Request\LoginRequest;
-use Service\AuthService;
+use Request\RegistrateRequest;
+use Service\Auth\AuthServiceInterface;
 
 class UserController
 {
     private User $user;
-    private AuthService $authService;
-    public function __construct()
+    private AuthServiceInterface $authService;
+    public function __construct(AuthServiceInterface $authService, User $user)
     {
-        $this->user = new User();
-        $this->authService = new AuthService();
+        $this->user = $user;
+        $this->authService = $authService;
     }
     public function getRegistrateForm()
     {
