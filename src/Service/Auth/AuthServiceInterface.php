@@ -10,10 +10,7 @@ interface AuthServiceInterface
 
     public function check():bool;
 
-
     public function getCurrentUser();
-
-    private function sessionStart();
 
     public function login(string $login, string $password): bool;
 

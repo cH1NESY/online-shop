@@ -2,7 +2,22 @@
 
 
 namespace core;
+use Controller\BasketController;
+use Controller\FavoriteController;
+use Controller\OrderController;
+use Controller\ProductController;
+use Controller\UserController;
+use Model\OrderProduct;
+use Model\Product;
+use Model\User;
+use Model\UserFavorites;
+use Model\UserProduct;
+use core\Container;
+use Service\Auth\AuthSessionService;
+use Service\BasketService;
+use Service\FavoriteService;
 use Service\Logger\LoggerServiceInterface;
+use Service\OrderService;
 
 class app
 {
@@ -10,10 +25,12 @@ class app
 
     private array $routes = [];
     private LoggerServiceInterface $logger;
+    private Container $container;
 
-    public function __construct(LoggerServiceInterface $logger)
+    public function __construct(LoggerServiceInterface $logger, Container $container)
     {
         $this->logger = $logger;
+        $this->container = $container;
     }
 
     public function run()
@@ -29,7 +46,9 @@ class app
                 $method = $route[$requestMethod]['method'];
                 $requestClass = $route[$requestMethod]['request'];
 
-                $class = new $controllerClassName();
+
+
+                $class = $this->container->get($controllerClassName);
                 try {
 
 
@@ -69,4 +88,55 @@ class app
         $this->routes[$route]['GET'] = ['class'=> $class, 'method' => $methodName, 'request' => $requestClass];
     }
 
+
+//    public function getObject(string $class)
+//    {
+//        $services = [
+//            UserController::class => function()
+//            {
+//                $authService = new AuthSessionService();
+//                $user = new User();
+//
+//                $object = new UserController($authService ,$user);
+//                return $object;
+//            },
+//            ProductController::class => function()
+//            {
+//                $product = new Product();
+//                $authService = new AuthSessionService();
+//
+//                $object = new ProductController($product,$authService);
+//                return $object;
+//            },
+//            OrderController::class => function()
+//            {
+//                $orderService = new OrderService();
+//                $authService = new AuthSessionService();
+//
+//                $object = new OrderController($orderService,$authService);
+//                return $object;
+//            },
+//            FavoriteController::class => function()
+//            {
+//                $userFav = new UserFavorites();
+//                $favorite = new FavoriteService();
+//                $authService = new AuthSessionService();
+//
+//                $object = new FavoriteController($userFav,$favorite,$authService);
+//                return $object;
+//            },
+//            BasketController::class => function()
+//            {
+//                $basketService = new BasketService();
+//                $userProduct = new UserProduct();
+//                $authService = new AuthSessionService();
+//
+//                $object = new BasketController($basketService, $userProduct,$authService);
+//                return $object;
+//            }
+//        ];
+//
+//        $callback = $services[$class];
+//        return $callback();
+//    }
 }
