@@ -17,6 +17,58 @@ class OrderProduct extends Database
 
     }
 
+    public static function getOrderAndProductsByUser($userId):array|null
+    {
+        $stmt = self::getPDO()->prepare("SELECT * FROM order_products
+         JOIN orders ON order_products.orderId = orders.id 
+         JOIN products ON order_products.productId = products.id
+         JOIN users ON orders.userId = users.id
+         WHERE userId = :userId");
+        $stmt->execute(['userId' => $userId]);
+        $data = $stmt->fetchAll();
+        if (empty($data)) {
+            return null;
+        }
+        foreach ($data as &$product)
+        {
+            $product = self::hydrate($product);
+        }
+        return $data;
+    }
+
+    private static function hydrate(array $data):self
+    {
+        $user = new User();
+        $user->setId($data['userid']);
+        $user->setName($data['name']);
+        $user->setEmail($data['email']);
+        $user->setPassword($data['password']);
+
+        $product = new Product();
+        $product->setId($data['productid']);
+        $product->setTitle($data['title']);
+        $product->setDescription($data['description']);
+        $product->setPrice($data['price']);
+        $product->setImage($data['image']);
+
+        $order = new Order();
+        $order->setId($data['orderid']);
+        $order->setUser($user);
+        $order->setContactName($data['contactname']);
+        $order->setContactNumber($data['contactnumber']);
+        $order->setAddress($data['address']);
+
+
+        $obj = new self();
+        $obj->id = $data['id'];
+        $obj->order = $order;
+        $obj->product = $product;
+        $obj->amount = $data['amount'];
+        $obj->price = $data['price'];
+
+        return $obj;
+    }
+
     /**
      * @return int
      */

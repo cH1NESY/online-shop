@@ -19,28 +19,20 @@
     <div class="cart">
 
         <div class="buttons" >
-            <a class="a" href="/order">
+            <a class="a" href="/catalog">
                 <button class="cart-button"
-                        id="cart-button">Create order
+                        id="cart-button">Catalog
                 </button>
             </a>
         </div>
     </div>
-    <div class="cart">
 
-        <div class="buttons" >
-            <a class="a" href="/order_history">
-                <button class="cart-button"
-                        id="cart-button">Order history
-                </button>
-            </a>
-        </div>
-    </div>
-    <h1>Корзина</h1>
+    <h1>История заказов</h1>
     <div class="card-wrapper">
         <!-- Card slides container -->
-        <?php if(empty($res)){echo "Basket empty";}?>
-        <?php foreach ($res as $r): ?>
+        <?php if(empty($res)){echo "History empty";}?>
+        <?php foreach ($res as $r):
+            echo "заказ ". $r->getOrder()->getId()?>
 
             <ul class="card-list swiper-wrapper">
                 <li class="card-item swiper-slide">
@@ -52,6 +44,21 @@
                         <label ><?php echo "Цена за штуку: " . $r->getProduct()->getPrice() . 'руб' ?></label><br/>
                         <label ><?php echo "Количество: " . $r->getAmount() ?></label><br/>
                         <?php $allPrice = $r->getProduct()->getPrice()*$r->getAmount(); echo "Цена: " . $allPrice . " руб"?>
+
+                        <form action="/add_favorite" method="post">
+                            <div class="input-boxes">
+
+                                <div class="input-box">
+                                    <i class="fas fa-user"></i>
+                                    <input type="hidden" value="<?= $r->getProduct()->getId()?>" name="product_id" placeholder="Enter product_id" required>
+                                </div>
+
+                                <div class="button input-box">
+                                    <input type="submit" value="Review">
+                                </div>
+
+                            </div>
+                        </form>
 
                     </a>
                 </li>
@@ -254,4 +261,5 @@
 
 
 </style>
+
 

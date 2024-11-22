@@ -6,4 +6,8 @@ LINE 1: SELECT *  FROM products
 LINE 1: SELECT *  FROM products
                        ^/var/www/html/src/Model/Product.php17SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "users" does not exist
 LINE 1: SELECT * FROM users WHERE email = $1
-                      ^/var/www/html/src/Model/User.php24
+                      ^/var/www/html/src/Model/User.php24Call to a member function getId() on null/var/www/html/src/Controller/OrderController.php232024-11-21 15:22:30
+                      Call to a member function getId() on null /var/www/html/src/Controller/OrderController.php23 2024-11-22 07:46:58Call to a member function getId() on null/var/www/html/src/Controller/OrderController.php392024-11-22 09:29:45Call to a member function getId() on null/var/www/html/src/Controller/OrderController.php232024-11-22 09:30:17Call to a member function getId() on null/var/www/html/src/Controller/BasketController.php492024-11-22 09:30:18Call to a member function getId() on null/var/www/html/src/Controller/BasketController.php492024-11-22 09:30:19SQLSTATE[42703]: Undefined column: 7 ERROR:  column order_products.product_id does not exist
+LINE 3:          JOIN products ON order_products.product_id = produc...
+                                  ^
+HINT:  Perhaps you meant to reference the column "order_products.productid"./var/www/html/src/Model/OrderProduct.php272024-11-22 10:22:00

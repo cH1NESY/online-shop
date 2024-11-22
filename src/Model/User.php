@@ -36,6 +36,7 @@ class User extends Database
         $stmt = self::getPDO()->prepare("SELECT * FROM users WHERE id = :id");
         $stmt->execute(['id' => $id]);
         $data = $stmt->fetch();
+
         if(empty($data))
         {
             return null;

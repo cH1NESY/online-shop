@@ -15,8 +15,8 @@ class OrderService
 
     public function create(CreateOrderDTO $OrderDTO)
     {
-        Database::getPDO()->beginTransaction();
-        try {
+        //Database::getPDO()->beginTransaction();
+        //try {
 
 
             Order::createNewOrder($OrderDTO->getUserId(), $OrderDTO->getName(), $OrderDTO->getPhoneNumber(), $OrderDTO->getAddress());
@@ -28,10 +28,12 @@ class OrderService
             }
 
             UserProduct::deleteProductByUserId($OrderDTO->getUserId());
-        } catch (\PDOException $e) {
-            Database::getPDO()->rollBack();
-            throw $e;
-        }
-        Database::getPDO()->commit();
+//        } catch (\PDOException $e) {
+//            Database::getPDO()->rollBack();
+//            echo $e->getMessage();
+//            throw $e;
+//
+//        }
+//        Database::getPDO()->commit();
     }
 }

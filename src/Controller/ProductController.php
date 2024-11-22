@@ -24,6 +24,5 @@ class ProductController
 
         require_once "./../View/catalog.php";
 
-
     }
 }

@@ -15,6 +15,7 @@ use Request\AddProductInFavorite;
 use Request\LoginRequest;
 use Request\OrderRequest;
 use Request\RegistrateRequest;
+use Controller\ReviewController;
 
 
 
@@ -100,6 +101,10 @@ use Request\RegistrateRequest;
 
     $app->addGetRoute('/favorite', FavoriteController::class, 'showProductsInFavorite');
     $app->addPostRoute('/favorite', FavoriteController::class, 'deleteProduct', AddProductInFavorite::class );
+
+    $app->addGetRoute('/order_history', OrderController::class, 'showOrderHistory');
+
+    $app->addPostRoute('/review', ReviewController::class, 'getReviewForm');
 
     $app->run();
 

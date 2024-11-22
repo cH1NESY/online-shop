@@ -11,7 +11,7 @@ class Order extends Database
     private string $contactNumber;
     private string $address;
     private int $totalPrice;
-    public static function createNewOrder($userId, $contactName, $contactNumber, $address)
+    public static function createNewOrder(int $userId,string $contactName,string $contactNumber,string $address)
     {
 
         $stmt = self::getPDO()->prepare("INSERT INTO orders (userId, contactName, contactNumber, address) 
@@ -30,6 +30,8 @@ class Order extends Database
 
         return self::hydrate($orderIds);
     }
+
+
 
     private static function hydrate(array $data): self
     {

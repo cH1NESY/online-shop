@@ -1,6 +1,7 @@
 <?php
 namespace Controller;
 use DTO\CreateOrderDTO;
+use Model\OrderProduct;
 use Model\UserProduct;
 use Request\OrderRequest;
 use Service\Auth\AuthServiceInterface;
@@ -32,15 +33,29 @@ class OrderController
     }
 
     public function createOrder(OrderRequest $request){
-        $errors = $request->validateOrder();
+        if(!$this->authService->check())
+        {
+            header('Location: /login');
+        }
+
+        $userId = $this->authService->getCurrentUser()->getId();
+
+        //$errors = $request->validateOrder();
+        $errors = [];
+
+
         if(empty($errors))
         {
 
-            $userId = $this->authService->getCurrentUser()->getId();
+
             $name = $request->getName();
             $address = $request->getAddress();
             $phoneNumber = $request->getPhone();
             $res = UserProduct::getProductsByUserId($userId);
+
+
+
+
 //            $allPrice = 0;
 //            foreach ($res as $r){
 //                $totalPrice = $r["price"] * $r["amount"];
@@ -56,6 +71,8 @@ class OrderController
 //
 //            $this->userProduct->deleteProductByUserId($userId);
             $dto = new CreateOrderDTO($userId, $name, $phoneNumber, $address);
+
+
             $this->orderService->create($dto);
             header('Location: /order');
 
@@ -65,7 +82,21 @@ class OrderController
             $res = UserProduct::getProductsByUserId($userId);
             require_once "./../View/order.php";
         }
+
     }
 
+    public function showOrderHistory()
+    {
+
+        $userId = $this->authService->getCurrentUser()->getId();
+
+        if(!$this->authService->check()){
+            header('Location: /login');
+        }
+
+        $res = OrderProduct::getOrderAndProductsByUser($userId);
+
+        require_once "./../View/orderHistory.php";
+    }
 
 }
