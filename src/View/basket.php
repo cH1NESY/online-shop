@@ -39,8 +39,9 @@
     <h1>Корзина</h1>
     <div class="card-wrapper">
         <!-- Card slides container -->
-        <?php if(empty($res)){echo "Basket empty";}?>
-        <?php foreach ($res as $r): ?>
+        <?php if(empty($res)){echo "Basket empty";}else{
+            foreach ($res as $r): ?>
+
 
             <ul class="card-list swiper-wrapper">
                 <li class="card-item swiper-slide">
@@ -57,7 +58,7 @@
                 </li>
             </ul>
 
-        <?php endforeach;?>
+        <?php endforeach;}?>
         <!-- Pagination -->
         <div class="swiper-pagination"></div>
 

@@ -16,7 +16,7 @@ use Request\LoginRequest;
 use Request\OrderRequest;
 use Request\RegistrateRequest;
 use Controller\ReviewController;
-
+use Request\ReviewRequest;
 
 
 
@@ -36,9 +36,10 @@ use Controller\ReviewController;
     $container->set(ProductController::class, function (Container $container)
     {
         $product = new \Model\Product();
+        $review = new \Service\ReviewService();
         $authService = $container->get(\Service\Auth\AuthServiceInterface::class);
 
-        return new ProductController($product,$authService);
+        return new ProductController($product, $review,$authService);
     });
 
     $container->set(OrderController::class, function (Container $container)
@@ -70,7 +71,17 @@ use Controller\ReviewController;
         return new BasketController($basketService,$userProduct,$authService);
     });
 
-    $container->set(\Service\Logger\LoggerServiceInterface::class, function ()
+    $container->set(ReviewController::class, function (Container $container)
+    {
+        $product = new \Model\Product();
+
+        $authService = $container->get(\Service\Auth\AuthServiceInterface::class);
+
+        return new ReviewController($product,$authService);
+    });
+
+
+$container->set(\Service\Logger\LoggerServiceInterface::class, function ()
     {
         return new \Service\Logger\LoggerFileService();
     });
@@ -104,7 +115,9 @@ use Controller\ReviewController;
 
     $app->addGetRoute('/order_history', OrderController::class, 'showOrderHistory');
 
-    $app->addPostRoute('/review', ReviewController::class, 'getReviewForm');
+    $app->addPostRoute('/add_review', ReviewController::class, 'getReviewForm', ReviewRequest::class );
+    $app->addPostRoute('/review', ReviewController::class, 'addReview', ReviewRequest::class );
 
+    $app->addPostRoute('/info_product', ProductController::class, 'showInfo', AddProductInFavorite::class );
     $app->run();
 

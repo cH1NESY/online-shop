@@ -46,6 +46,7 @@ class User extends Database
     }
 
 
+
     private static function hydrate(array $data): self
     {
         $obj = new self();

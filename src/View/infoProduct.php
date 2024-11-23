@@ -1,4 +1,6 @@
 
+
+
 <!DOCTYPE html>
 <!-- Coding By CodingNepal - www.codingnepalweb.com -->
 <html lang="en">
@@ -16,55 +18,90 @@
 <body>
 
 <div class="container swiper">
-    <div class="cart">
 
-        <div class="buttons" >
-            <a class="a" href="/catalog">
-                <button class="cart-button"
-                        id="cart-button">Catalog
-                </button>
-            </a>
-        </div>
-    </div>
 
-    <h1>История заказов</h1>
+    <h1>Catalog</h1>
     <div class="card-wrapper">
         <!-- Card slides container -->
-        <?php if(empty($res)){echo "History empty";}?>
-        <?php foreach ($res as $r):
-            echo "заказ ". $r->getOrder()->getId()?>
 
             <ul class="card-list swiper-wrapper">
                 <li class="card-item swiper-slide">
                     <a href="#" class="card-link">
-                        <?php $allPrice = 1;?>
-                        <img src="<?php echo $r->getProduct()->getImage()?>" alt="Card Image" class="card-image">
-                        <p class="badge badge-designer"><?php echo $r->getProduct()->getTitle()?></p>
-                        <h2 class="card-title"><?php echo $r->getProduct()->getDescription() ?></h2>
-                        <label ><?php echo "Цена за штуку: " . $r->getProduct()->getPrice() . 'руб' ?></label><br/>
-                        <label ><?php echo "Количество: " . $r->getAmount() ?></label><br/>
-                        <?php $allPrice = $r->getProduct()->getPrice()*$r->getAmount(); echo "Цена: " . $allPrice . " руб"?>
 
-                        <form action="/add_review" method="post">
+                        <img src="<?php echo $product->getImage()?>" alt="Card Image" class="card-image">
+                        <p class="badge badge-designer"><?php echo $product->getTitle();?></p>
+                        <h2 class="card-title"><?php echo $product->getDescription(); ?></h2>
+                        <label ><?php echo $product->getPrice() . 'руб';?></label></p>
+                        <label ><?php echo 'Средний рейтинг продукта: ' . $avg;?></label>
+                        <form action="/add_favorite" method="post">
                             <div class="input-boxes">
 
                                 <div class="input-box">
                                     <i class="fas fa-user"></i>
-                                    <input type="hidden" value="<?= $r->getProduct()->getId()?>" name="product_id" placeholder="Enter product_id" required>
+                                    <input type="hidden" value="<?= $product->getId()?>" name="product_id" placeholder="Enter product_id" required>
                                 </div>
 
                                 <div class="button input-box">
-                                    <input type="submit" value="Review">
+                                    <input type="submit" value="addInFavorite">
+                                </div>
+
+                            </div>
+                        </form>
+                        <form action="/info_product" method="post">
+                            <div class="input-boxes">
+
+                                <div class="input-box">
+                                    <i class="fas fa-user"></i>
+                                    <input type="hidden" value="<?= $product->getId()?>" name="product_id" placeholder="Enter product_id" required>
+                                </div>
+
+                                <div class="button input-box">
+                                    <input type="submit" value="info">
                                 </div>
 
                             </div>
                         </form>
 
-                    </a>
-                </li>
-            </ul>
 
-        <?php endforeach;?>
+                    </a>
+
+                </li>
+
+            </ul>
+            <form action="/add_product" method="post">
+                <div class="input-boxes">
+                    <label style="color: #a647ff" ><?php if(!empty($errors) && !empty($errors['product_id'])){ print_r($errors['product_id']) ;}?>  </label>
+                    <div class="input-box">
+                        <i class="fas fa-user"></i>
+                        <input type="hidden" value="<?= $product->getId()?>" name="product_id" placeholder="Enter product_id" required>
+                    </div>
+                    <label style="color: #a647ff"> <?php if(!empty($errors) && !empty($errors['amount'])){print_r($errors['amount']);} ?></label>
+                    <div class="input-box">
+                        <i class="fas fa-envelope"></i>
+                        <input type="text" name="amount" placeholder="Enter amount" required>
+                    </div>
+
+                    <div class="button input-box">
+                        <input type="submit" value="add">
+                    </div>
+
+                </div>
+
+            </form>
+        <p class="input-boxes">
+            <h1>Reviews</h1>
+            <?php foreach ($reviews as $review):?>
+            <label style="color: #a647ff" > <?php echo  $review->getUser()->getName(); ?> </label><p></p>
+            <label style="color: #a647ff" > <?php echo "Review: " . $review->getText(); ?> </label><p></p>
+            <label style="color: #a647ff" > <?php echo "Rating: " . $review->getRating(); ?> </label><p></p>
+            <label style="color: #a647ff" > <?php echo "Date: " . $review->getDate(); ?> </label><p></p>
+
+            <label style="color: #a647ff"> </label>
+
+            <?php endforeach; ?>
+        </div>
+
+
         <!-- Pagination -->
         <div class="swiper-pagination"></div>
 
@@ -100,7 +137,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        min-height: 100vh;
+
         background: linear-gradient(#ECEFFE, #C5CFFC);
     }
 
@@ -130,9 +167,14 @@
     .card-list .card-item .card-link:active {
         cursor: grabbing;
     }
+    .card-list .card-item .card-link {
+
+        margin: 10px;
+    }
 
     .card-list .card-item .card-link:hover {
         border-color: #5372F0;
+
     }
 
     .card-list .card-link .card-image {
@@ -223,10 +265,7 @@
             display: none;
         }
     }
-    .button {
-        color: #fff;
-        margin-top: 40px;
-    }
+
     .button input {
         color: #fff;
         background: #7d2ae8;
@@ -243,7 +282,7 @@
         align-items: center;
         height: 50px;
         width: 100%;
-        margin: 10px 1px;
+        margin: 10px 1px ;
         position: relative;
     }
     .input-box input {
@@ -258,8 +297,96 @@
         transition: all 0.3s ease;
     }
 
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
 
+    body{
+        width: 100%;
 
+        display: flex;
+        justify-content: left;
+        align-items: flex-start;
+        margin: 0;
+        padding: 0;
+        flex-direction: column;
+        background-color: #1b1b1b;
+        font-family: 'Poppins', sans-serif;
+    }
+    .cart{
+        position: relative;
+        width: 300px;
+        height: auto;
+        cursor: pointer;
+        overflow: hidden;
+
+    }
+    .cart-number{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 150px;
+        padding: 50px 30px 10px;
+    }
+    .cart img{
+        width: 50px;
+        height: 50px;
+    }
+    .cart-button{
+        margin-top: 20px;
+        padding: 1px 30px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 70%;
+        font-size: 20px;
+        color: #000000;
+        transition: all 0.3s;
+        width: 180px;
+        z-index: 100;
+    }
+    button{
+        border: none;
+        background-color: #a647ff;
+        outline: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .buttons{
+        transition: all 0.3s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    a{
+        text-decoration: none
+    }
+    button:hover{
+        background-color: #ff6f00;
+    }
+
+    @keyframes pop-up{
+        0%{
+            transform: scale(0);
+        }
+        20%{
+            transform: scale(0.8);
+        }
+
+        100%{
+            transform: scale(1);
+        }
+    }
+    @keyframes pop-up-2{
+        0%{
+            transform: scale(1);
+        }
+        20%{
+            transform: scale(1.2);
+        }
+        100%{
+            transform: scale(1);
+        }
+    }
 </style>
-
 

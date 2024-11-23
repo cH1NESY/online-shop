@@ -53,6 +53,20 @@
 
                             </div>
                         </form>
+                        <form action="/info_product" method="post">
+                            <div class="input-boxes">
+
+                                <div class="input-box">
+                                    <i class="fas fa-user"></i>
+                                    <input type="hidden" value="<?= $product->getId()?>" name="product_id" placeholder="Enter product_id" required>
+                                </div>
+
+                                <div class="button input-box">
+                                    <input type="submit" value="info">
+                                </div>
+
+                            </div>
+                        </form>
                     </a>
 
                 </li>
