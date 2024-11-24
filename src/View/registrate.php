@@ -10,7 +10,9 @@
     <!-- Fontawesome CDN Link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 </head>
+
 <body>
 <div class="container">
     <input type="checkbox" id="flip">
@@ -32,7 +34,15 @@
     </div>
     <div class="forms">
         <div class="form-content">
+
             <div class="login-form">
+                <div class="buttons" >
+                    <a class="a" href="/catalog">
+                        <button class="cart-button"
+                                id="cart-button">catalog
+                        </button>
+                    </a>
+                </div>
                 <div class="title">Login</div>
                 <form action="/login" method="post">
                     <div class="input-boxes">

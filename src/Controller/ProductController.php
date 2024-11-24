@@ -20,10 +20,6 @@ class ProductController
     public function showProducts()
     {
 
-        if(!$this->authService->check()){
-            header('Location: /login');
-        }
-
         $products = $this->product->getProducts();
 
 

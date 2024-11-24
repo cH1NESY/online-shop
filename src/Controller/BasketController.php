@@ -46,18 +46,19 @@ class BasketController
     public function showProductsInBasket()
     {
 
-        $user_id =  $this->authService->getCurrentUser()->getId();
 
-        if(!isset($_SESSION['user_id'])){
-            header('Location: /login');
+
+        if($this->authService->check()){
+            $user_id =  $this->authService->getCurrentUser()->getId();
+            require_once "./../Model/UserProduct.php";
+
+            $res = $this->userProduct->getProductsByUserId($user_id);
+
+
+            require_once "./../View/basket.php";
+
         }
-
-        require_once "./../Model/UserProduct.php";
-
-        $res = $this->userProduct->getProductsByUserId($user_id);
-
-
-        require_once "./../View/basket.php";
+        header('Location: /login');
 
 
     }

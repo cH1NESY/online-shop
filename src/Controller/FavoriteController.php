@@ -49,7 +49,7 @@ class FavoriteController
     {
 
         $userId = $this->authService->getCurrentUser()->getId();
-        if(!isset($_SESSION['user_id'])){
+        if($this->authService->check()){
             header('Location: /login');
         }
 
