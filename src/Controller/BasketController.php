@@ -22,25 +22,38 @@ class BasketController
     }
     public function getAddProductForm()
     {
-        require_once "./../View/addProduct.php";
+        if(!$this->authService->check())
+        {
+            header('Location: /login');
+        }else{
+            require_once "./../View/addProduct.php";
+        }
+
     }
 
     public function addProduct(AddProductInBasketRequest $request)
     {
-
-        $userId =  $this->authService->getCurrentUser()->getId();
-        $errors = $request->validateProduct();
-        if (empty($errors)) {
-            $amount = $request->getAmount();
-            $productId = $request->getProductId();
-
-            $dto = new addProductDTO($userId, $productId, $amount);
-            $this->basketService->addProduct($dto);
-            header('Location: /basket');
+        if(!$this->authService->check())
+        {
+            header('Location: /login');
         }else{
-            require_once "./../View/addProduct.php";
+
+
+            $userId =  $this->authService->getCurrentUser()->getId();
+            $errors = $request->validateProduct();
+            if (empty($errors)) {
+                $amount = $request->getAmount();
+                $productId = $request->getProductId();
+
+                $dto = new addProductDTO($userId, $productId, $amount);
+                $this->basketService->addProduct($dto);
+                header('Location: /basket');
+            }else{
+                require_once "./../View/addProduct.php";
+            }
         }
-    }
+
+}
 
 
     public function showProductsInBasket()
@@ -57,8 +70,10 @@ class BasketController
 
             require_once "./../View/basket.php";
 
+        }else{
+            header('Location: /login');
         }
-        header('Location: /login');
+
 
 
     }

@@ -36,10 +36,11 @@ use Request\ReviewRequest;
     $container->set(ProductController::class, function (Container $container)
     {
         $product = new \Model\Product();
+        $orderProduct = new \Model\OrderProduct();
         $review = new \Service\ReviewService();
         $authService = $container->get(\Service\Auth\AuthServiceInterface::class);
 
-        return new ProductController($product, $review,$authService);
+        return new ProductController($product, $orderProduct ,$review,$authService);
     });
 
     $container->set(OrderController::class, function (Container $container)

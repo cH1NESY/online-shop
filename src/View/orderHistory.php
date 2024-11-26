@@ -37,7 +37,7 @@
             <ul class="card-list swiper-wrapper">
                 <li class="card-item swiper-slide">
                     <a href="#" class="card-link">
-                        <?php $allPrice = 1;?>
+
                         <img src="<?php echo $r->getProduct()->getImage()?>" alt="Card Image" class="card-image">
                         <p class="badge badge-designer"><?php echo $r->getProduct()->getTitle()?></p>
                         <h2 class="card-title"><?php echo $r->getProduct()->getDescription() ?></h2>

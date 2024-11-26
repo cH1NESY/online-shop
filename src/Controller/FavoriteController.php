@@ -24,8 +24,11 @@ class FavoriteController
     }
     public function addProduct(AddProductInFavorite $request)
     {
-
-        $userId =  $this->authService->getCurrentUser()->getId();
+        if(!$this->authService->check())
+        {
+            header('Location: /login');
+        }else {
+            $userId = $this->authService->getCurrentUser()->getId();
 
             $productId = $request->getProductId();
 
@@ -33,7 +36,7 @@ class FavoriteController
             $this->favoriteService->addProduct($dto);
             header('Location: /favorite');
 
-
+        }
     }
 
     public function deleteProduct(AddProductInFavorite $request)
@@ -47,19 +50,22 @@ class FavoriteController
 
     public function showProductsInFavorite()
     {
-
-        $userId = $this->authService->getCurrentUser()->getId();
-        if($this->authService->check()){
+        if(!$this->authService->check())
+        {
             header('Location: /login');
+        }else {
+            $userId = $this->authService->getCurrentUser()->getId();
+            if ($this->authService->check()) {
+                header('Location: /login');
+            }
+
+
+            $dto = new FavoriteDTO($userId);
+            $products = $this->favoriteService->showProducts($dto);
+
+
+            require_once "./../View/favorite.php";
         }
-
-
-        $dto = new FavoriteDTO($userId);
-        $products = $this->favoriteService->showProducts($dto);
-
-
-        require_once "./../View/favorite.php";
-
 
     }
 

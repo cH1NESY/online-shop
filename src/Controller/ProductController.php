@@ -1,5 +1,6 @@
 <?php
 namespace Controller;
+use Model\OrderProduct;
 use Model\Product;
 use Request\AddProductInFavorite;
 use Service\Auth\AuthServiceInterface;
@@ -9,13 +10,16 @@ use Model\Review;
 class ProductController
 {
     private Product $product;
+    private OrderProduct $orderProduct;
     private ReviewService $reviewService;
     private AuthServiceInterface $authService;
-    public function __construct( Product $product, ReviewService $reviewService,AuthServiceInterface $authService)
+    public function __construct( Product $product,OrderProduct $orderProduct ,ReviewService $reviewService,AuthServiceInterface $authService)
     {
         $this->product = $product;
+        $this->orderProduct = $orderProduct;
         $this->reviewService = $reviewService;
         $this->authService = $authService;
+
     }
     public function showProducts()
     {
@@ -29,18 +33,25 @@ class ProductController
 
     public function showInfo(AddProductInFavorite $request)
     {
-
-        if(!$this->authService->check()){
-            header('Location: /login');
+        $authFlag = false;
+        if($this->authService->check()){
+            $authFlag = true;
+            $userId = $this->authService->getCurrentUser()->getId();
+            $products = OrderProduct::getOrderAndProductsByUser($userId);
         }
-        $productId = $request->getProductId();
-        $product = $this->product->getProductsByProductId($productId);
 
-        $reviews = Review::getByProductId($productId);
 
-        $avg = $this->reviewService->getAvgRating($reviews);
+            $productId = $request->getProductId();
+            $product = $this->product->getProductsByProductId($productId);
 
-        require_once "./../View/infoProduct.php";
+            $reviews = Review::getByProductId($productId);
+
+
+
+
+            $avg = $this->reviewService->getAvgRating($reviews);
+
+            require_once "./../View/infoProduct.php";
 
     }
 }

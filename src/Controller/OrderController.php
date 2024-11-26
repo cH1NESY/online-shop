@@ -88,12 +88,12 @@ class OrderController
     public function showOrderHistory()
     {
 
-        $userId = $this->authService->getCurrentUser()->getId();
+
 
         if(!$this->authService->check()){
             header('Location: /login');
         }
-
+        $userId = $this->authService->getCurrentUser()->getId();
         $res = OrderProduct::getOrderAndProductsByUser($userId);
 
         require_once "./../View/orderHistory.php";

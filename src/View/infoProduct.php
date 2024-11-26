@@ -47,20 +47,7 @@
 
                             </div>
                         </form>
-                        <form action="/info_product" method="post">
-                            <div class="input-boxes">
 
-                                <div class="input-box">
-                                    <i class="fas fa-user"></i>
-                                    <input type="hidden" value="<?= $product->getId()?>" name="product_id" placeholder="Enter product_id" required>
-                                </div>
-
-                                <div class="button input-box">
-                                    <input type="submit" value="info">
-                                </div>
-
-                            </div>
-                        </form>
 
 
                     </a>
@@ -88,6 +75,31 @@
                 </div>
 
             </form>
+        <?php if ($authFlag === true){?>
+       <?php $flag = false;?>
+        <?php foreach ($products as $p):?>
+        <?php if($p->getProduct()->getId() == $productId){?>
+        <?php $flag = true;}?>
+
+
+
+            <form action="/add_review" method="post">
+                <div class="input-boxes">
+
+                    <div class="input-box">
+                        <i class="fas fa-user"></i>
+                        <input type="hidden" value="<?= $p->getProduct()->getId()?>" name="product_id" placeholder="Enter product_id" required>
+                    </div>
+                    <?php endforeach;?>
+                    <?php if ($flag === true){ ?>
+                        <div class="button input-box">
+                            <input type="submit" value="Review">
+                        </div>
+                    <?php } ?>
+                    <?php } ?>
+                </div>
+            </form>
+
         <p class="input-boxes">
             <h1>Reviews</h1>
             <?php foreach ($reviews as $review):?>
