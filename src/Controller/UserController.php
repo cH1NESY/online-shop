@@ -1,10 +1,10 @@
 <?php
 
 namespace Controller;
+use Ch1nesy\MyCore\AuthServiceInterface;
 use Model\User;
 use Request\LoginRequest;
 use Request\RegistrateRequest;
-use Service\Auth\AuthServiceInterface;
 
 class UserController
 {

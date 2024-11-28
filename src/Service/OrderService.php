@@ -2,12 +2,9 @@
 
 namespace Service;
 use DTO\CreateOrderDTO;
-use Model\UserProduct;
 use Model\Order;
 use Model\OrderProduct;
-use Request\OrderRequest;
-use Model\Database;
-
+use Model\UserProduct;
 
 
 class OrderService

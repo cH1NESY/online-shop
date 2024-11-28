@@ -2,7 +2,8 @@
 //require_once './../Model/Database.php';
 
 namespace Model;
-use Model\Database;
+use Ch1nesy\MyCore\Database;
+
 class Order extends Database
 {
     private int $id;

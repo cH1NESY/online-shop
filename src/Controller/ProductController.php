@@ -1,11 +1,11 @@
 <?php
 namespace Controller;
+use Ch1nesy\MyCore\AuthServiceInterface;
 use Model\OrderProduct;
 use Model\Product;
-use Request\AddProductInFavorite;
-use Service\Auth\AuthServiceInterface;
-use Service\ReviewService;
 use Model\Review;
+use Request\AddProductInFavorite;
+use Service\ReviewService;
 
 class ProductController
 {
@@ -38,8 +38,8 @@ class ProductController
             $authFlag = true;
             $userId = $this->authService->getCurrentUser()->getId();
             $products = OrderProduct::getOrderAndProductsByUser($userId);
-        }
 
+        }
 
             $productId = $request->getProductId();
             $product = $this->product->getProductsByProductId($productId);

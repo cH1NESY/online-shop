@@ -2,7 +2,7 @@
 namespace Model;
 //require_once './../Model/Database.php';
 
-use Model\Database;
+use Ch1nesy\MyCore\Database;
 
 class UserProduct extends Database
 {

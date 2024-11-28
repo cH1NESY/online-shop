@@ -2,6 +2,8 @@
 
 namespace Service\Logger;
 
+use Ch1nesy\MyCore\LoggerServiceInterface;
+
 class LoggerFileService implements LoggerServiceInterface
 {
     public function errors(string $message, array $data = [])

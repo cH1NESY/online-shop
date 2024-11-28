@@ -2,6 +2,8 @@
 
 namespace Request;
 
+
+use Ch1nesy\MyCore\Request;
 class RegistrateRequest extends Request
 {
     public function getName():?string

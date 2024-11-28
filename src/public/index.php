@@ -1,33 +1,38 @@
 <?php
 
-require_once "./../core/Autoload.php";
+require_once "./../../vendor/autoload.php";
 
+
+use Ch1nesy\MyCore\App;
+use Ch1nesy\MyCore\AuthServiceInterface;
+use Ch1nesy\MyCore\Autoload;
+use Ch1nesy\MyCore\Container;
+use Ch1nesy\MyCore\LoggerServiceInterface;
 use Controller\BasketController;
 use Controller\FavoriteController;
 use Controller\OrderController;
 use Controller\ProductController;
+use Controller\ReviewController;
 use Controller\UserController;
-use core\app;
-use core\Autoload;
-use core\Container;
+
 use Request\AddProductInBasketRequest;
 use Request\AddProductInFavorite;
 use Request\LoginRequest;
 use Request\OrderRequest;
 use Request\RegistrateRequest;
-use Controller\ReviewController;
 use Request\ReviewRequest;
 
 
 
-    Autoload::registrate("/var/www/html/src/");
-    $container = new \core\Container();
+
+Autoload::registrate("/var/www/html/src/");
+    $container = new Container();
     $logger = new \Service\Logger\LoggerFileService();
 
 
     $container->set(UserController::class, function (Container $container)
     {
-        $authService = $container->get(\Service\Auth\AuthServiceInterface::class);
+        $authService = $container->get(AuthServiceInterface::class);
         $user = new \Model\User();
 
         return new UserController($authService,$user);
@@ -38,7 +43,7 @@ use Request\ReviewRequest;
         $product = new \Model\Product();
         $orderProduct = new \Model\OrderProduct();
         $review = new \Service\ReviewService();
-        $authService = $container->get(\Service\Auth\AuthServiceInterface::class);
+        $authService = $container->get(AuthServiceInterface::class);
 
         return new ProductController($product, $orderProduct ,$review,$authService);
     });
@@ -46,7 +51,7 @@ use Request\ReviewRequest;
     $container->set(OrderController::class, function (Container $container)
     {
         $orderService = new \Service\OrderService();
-        $authService = $container->get(\Service\Auth\AuthServiceInterface::class);
+        $authService = $container->get(AuthServiceInterface::class);
 
        return new OrderController($orderService,$authService);
     });
@@ -54,11 +59,9 @@ use Request\ReviewRequest;
     $container->set(FavoriteController::class, function (Container $container)
     {
 
-
         $userFav = new \Model\UserFavorites();
         $favorite = new \Service\FavoriteService();
-        $authService = $container->get(\Service\Auth\AuthServiceInterface::class);
-
+        $authService = $container->get(AuthServiceInterface::class);
 
         return new FavoriteController($userFav, $favorite,$authService);
     });
@@ -67,7 +70,7 @@ use Request\ReviewRequest;
     {
         $basketService = new \Service\BasketService();
         $userProduct = new \Model\UserProduct();
-        $authService = $container->get(\Service\Auth\AuthServiceInterface::class);
+        $authService = $container->get(AuthServiceInterface::class);
 
         return new BasketController($basketService,$userProduct,$authService);
     });
@@ -76,18 +79,18 @@ use Request\ReviewRequest;
     {
         $product = new \Model\Product();
 
-        $authService = $container->get(\Service\Auth\AuthServiceInterface::class);
+        $authService = $container->get(AuthServiceInterface::class);
 
         return new ReviewController($product,$authService);
     });
 
 
-$container->set(\Service\Logger\LoggerServiceInterface::class, function ()
+$container->set(LoggerServiceInterface::class, function ()
     {
         return new \Service\Logger\LoggerFileService();
     });
 
-    $container->set(\Service\Auth\AuthServiceInterface::class, function ()
+    $container->set(AuthServiceInterface::class, function ()
     {
         return new \Service\Auth\AuthSessionService();
     });

@@ -1,11 +1,11 @@
 <?php
 
 namespace Controller;
+use Ch1nesy\MyCore\AuthServiceInterface;
+
 use DTO\FavoriteDTO;
 use Model\UserFavorites;
 use Request\AddProductInFavorite;
-use Service\Auth\AuthServiceInterface;
-
 use Service\FavoriteService;
 
 class FavoriteController

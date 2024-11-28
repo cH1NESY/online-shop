@@ -2,6 +2,9 @@
 
 namespace Model;
 
+use Ch1nesy\MyCore\Database;
+
+
 class Log extends Database
 {
     public static function Createlog(string $message, string $file, string $line){

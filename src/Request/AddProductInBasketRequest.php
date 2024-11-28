@@ -1,6 +1,7 @@
 <?php
 
 namespace Request;
+use Ch1nesy\MyCore\Request;
 use Model\Product;
 
 

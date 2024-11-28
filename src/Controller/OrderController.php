@@ -1,11 +1,10 @@
 <?php
 namespace Controller;
+use Ch1nesy\MyCore\AuthServiceInterface;
 use DTO\CreateOrderDTO;
 use Model\OrderProduct;
 use Model\UserProduct;
 use Request\OrderRequest;
-use Service\Auth\AuthServiceInterface;
-
 use Service\OrderService;
 
 class OrderController

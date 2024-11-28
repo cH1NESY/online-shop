@@ -32,18 +32,18 @@
                     <div class="input-boxes">
                         <label style="color: #a647ff" > </label>
                         <div class="input-box">
-
+                            <?php if(!empty($errors) && !empty($errors['product_id'])  ){ print_r($errors['product_id']) ;}?>
                             <input type="hidden" value="<?= $productId?>" name="product_id" placeholder="Enter product_id" required>
 
                         </div>
                         <label style="color: #a647ff"> </label>
                         <div class="input-box">
-
+                            <?php if(!empty($errors) && !empty($errors['text'])  ){ print_r($errors['text']) ;}?>
                             <input type="text" name="text" placeholder="Enter your review" required>
                         </div>
                         <label style="color: #a647ff"> </label>
                         <div class="input-box">
-
+                            <?php if(!empty($errors) && !empty($errors['rating'])  ){ print_r($errors['rating']) ;}?>
                             <input type="text" name="rating" placeholder="Enter your rating" required>
                         </div>
                         <label style="color: #a647ff"> </label>

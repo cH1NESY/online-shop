@@ -1,7 +1,9 @@
 <?php
 
 namespace Service\Auth;
+use Ch1nesy\MyCore\AuthServiceInterface;
 use Model\User;
+
 
 class AuthSessionService implements AuthServiceInterface
 {

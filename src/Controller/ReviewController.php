@@ -2,16 +2,16 @@
 
 namespace Controller;
 
+use Ch1nesy\MyCore\AuthServiceInterface;
 use DTO\AddReviewDTO;
 use Model\Product;
 use Model\Review;
 use Request\ReviewRequest;
-use Service\Auth\AuthServiceInterface;
-use Service\ReviewService;
 
 class ReviewController
 {
     private Product $product;
+
     private AuthServiceInterface $authService;
     public function __construct( Product $product, AuthServiceInterface $authService)
     {
@@ -30,16 +30,27 @@ class ReviewController
 
     public function addReview(ReviewRequest $reviewRequest)
     {
+        $productId = $reviewRequest->getProductId();
+        $products = $this->product->getProducts();
         if(!$this->authService->check()){
             header('Location: /login');
         }
-        $productId = $reviewRequest->getProductId();
         $userId = $this->authService->getCurrentUser()->getId();
-        $review = $reviewRequest->getReview();
-        $rating = $reviewRequest->getRating();
-        $date = date('Y-m-d H:i:s');
-        Review::addReview($productId, $userId, $review, $rating, $date);
-        header('Location: /catalog');
+        $errors = $reviewRequest->validate($userId);
+        if(empty($errors)){
+
+
+
+
+            $review = $reviewRequest->getReview();
+            $rating = $reviewRequest->getRating();
+            $date = date('Y-m-d H:i:s');
+            Review::addReview($productId, $userId, $review, $rating, $date);
+            header('Location: /catalog');
+        }else{
+            require_once "./../View/review.php";
+        }
+
 
     }
 

@@ -1,11 +1,10 @@
 <?php
 
 namespace Controller;
+use Ch1nesy\MyCore\AuthServiceInterface;
 use DTO\AddProductDTO;
 use Model\UserProduct;
 use Request\AddProductInBasketRequest;
-use Service\Auth\AuthServiceInterface;
-
 use Service\BasketService;
 
 class BasketController

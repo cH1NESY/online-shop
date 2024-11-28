@@ -1,7 +1,7 @@
 <?php
 
 namespace Model;
-use Model\Database;
+use Ch1nesy\MyCore\Database;
 
 class UserFavorites extends Database
 {

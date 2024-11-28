@@ -2,6 +2,8 @@
 
 namespace Model;
 
+use Ch1nesy\MyCore\Database;
+
 class Review extends Database
 {
     private int $id;

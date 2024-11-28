@@ -75,30 +75,34 @@
                 </div>
 
             </form>
-        <?php if ($authFlag === true){?>
-       <?php $flag = false;?>
-        <?php foreach ($products as $p):?>
-        <?php if($p->getProduct()->getId() == $productId){?>
-        <?php $flag = true;}?>
 
 
+        <form action="/review" method="post">
+            <div class="input-boxes">
+                <label style="color: #a647ff" > </label>
+                <div class="input-box">
+                    <label style="color: #a647ff" ><?php if(!empty($errors) && !empty($errors['product_id'])  ){ print_r($errors['product_id']) ;}?>  </label>
+                    <input type="hidden" value="<?= $productId?>" name="product_id" placeholder="Enter product_id" required>
 
-            <form action="/add_review" method="post">
-                <div class="input-boxes">
-
-                    <div class="input-box">
-                        <i class="fas fa-user"></i>
-                        <input type="hidden" value="<?= $p->getProduct()->getId()?>" name="product_id" placeholder="Enter product_id" required>
-                    </div>
-                    <?php endforeach;?>
-                    <?php if ($flag === true){ ?>
-                        <div class="button input-box">
-                            <input type="submit" value="Review">
-                        </div>
-                    <?php } ?>
-                    <?php } ?>
                 </div>
-            </form>
+                <label style="color: #a647ff"> </label>
+                <div class="input-box">
+                    <label style="color: #a647ff" ><?php if(!empty($errors) && !empty($errors['text'])  ){ print_r($errors['text']) ;}?>  </label>
+                    <input type="text" name="text" placeholder="Enter your review" required>
+                </div>
+                <label style="color: #a647ff"> </label>
+                <div class="input-box">
+                    <label style="color: #a647ff" ><?php if(!empty($errors) && !empty($errors['rating'])  ){ print_r($errors['rating']) ;}?>  </label>
+                    <input type="text" name="rating" placeholder="Enter your rating" required>
+                </div>
+                <label style="color: #a647ff"> </label>
+
+                <div class="button input-box">
+                    <input type="submit" value="Sumbit">
+                </div>
+
+            </div>
+        </form>
 
         <p class="input-boxes">
             <h1>Reviews</h1>
@@ -293,7 +297,7 @@
         display: flex;
         align-items: center;
         height: 50px;
-        width: 100%;
+        width: 150%;
         margin: 10px 1px ;
         position: relative;
     }

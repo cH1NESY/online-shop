@@ -2,6 +2,8 @@
 
 namespace Request;
 
+use Ch1nesy\MyCore\Request;
+
 class AddProductInFavorite extends Request
 {
     public function getProductId():?int
